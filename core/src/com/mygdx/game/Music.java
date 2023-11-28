@@ -5,15 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Music extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Texture targetTexture;
 	private float targetX, targetY;
-	private float targetSpeed = 300; // Adjust as needed
-	private float targetRadius = 50; // Adjust as needed
+	private float targetSpeed = 1500; // Adjust as needed
+	private float targetRadius = 100; // Adjust as needed
 
 	@Override
 	public void create() {
@@ -23,19 +21,21 @@ public class Music extends ApplicationAdapter {
 		// Initial position of the target
 		targetX = Gdx.graphics.getWidth() / 2 - targetRadius;
 		targetY = Gdx.graphics.getHeight() / 2 - targetRadius;
+
+
 	}
 
 	@Override
 	public void render() {
 		handleInput();
 
-		// Move the target
+		// Move the target vertically
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		targetX += targetSpeed * deltaTime;
+		targetY -= targetSpeed * deltaTime;
 
 		// Reset target position if it goes off the screen
-		if (targetX > Gdx.graphics.getWidth()) {
-			targetX = -targetRadius;
+		if (targetY + targetRadius * 2 < 0) {
+			resetTargetPosition();
 		}
 
 		// Clear the screen
@@ -46,6 +46,11 @@ public class Music extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(targetTexture, targetX, targetY, targetRadius * 2, targetRadius * 2);
 		batch.end();
+	}
+
+	private void resetTargetPosition() {
+		// Reset target position above the screen
+		targetY = Gdx.graphics.getHeight();
 	}
 
 	private void handleInput() {
