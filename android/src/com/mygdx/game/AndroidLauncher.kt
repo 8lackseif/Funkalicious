@@ -15,6 +15,6 @@ class AndroidLauncher : AndroidApplication() {
         config.useWakelock = true
         config.useImmersiveMode = true
 
-        initialize(Music(), config)
+        initialize(Menu(), config)
     }
 }

@@ -1,15 +1,15 @@
 package com.mygdx.game
 
-
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class Music : ApplicationAdapter() {
+class Game : ScreenAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var targetTexture: Texture
     private var targetX: Float = 0f
@@ -17,7 +17,7 @@ class Music : ApplicationAdapter() {
     private var targetSpeed: Float = 1500f
     private var targetRadius: Float = 100f
 
-    override fun create() {
+    override fun show() {
         batch = SpriteBatch()
         targetTexture = Texture("badlogic.jpg")
 
@@ -26,7 +26,7 @@ class Music : ApplicationAdapter() {
         targetY = Gdx.graphics.height / 2 - targetRadius
     }
 
-    override fun render() {
+    override fun render(delta: Float) {
         handleInput()
 
         // Move the target vertically
