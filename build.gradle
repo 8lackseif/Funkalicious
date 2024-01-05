@@ -10,8 +10,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
-        
-
+        classpath 'com.google.gms:google-services:4.3.4'
     }
 }
 
@@ -53,7 +52,12 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        
+
+        implementation platform('com.google.firebase:firebase-bom:26.7.0')
+        implementation("com.google.firebase:firebase-database")
+        implementation("com.google.firebase:firebase-storage")
+
+
     }
 }
 

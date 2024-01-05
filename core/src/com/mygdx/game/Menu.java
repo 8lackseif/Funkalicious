@@ -21,7 +21,10 @@ public class Menu implements Screen,ApplicationListener, InputProcessor {
     private Skin skin;
     private int currentIndex;
 
-    public Menu(){
+    private FirebaseInterface FI;
+
+    public Menu(FirebaseInterface FI){
+        this.FI = FI;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
