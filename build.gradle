@@ -53,12 +53,13 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
-        implementation platform('com.google.firebase:firebase-bom:26.7.0')
-        implementation("com.google.firebase:firebase-database")
-        implementation("com.google.firebase:firebase-storage")
+        implementation ("com.google.firebase:firebase-core:21.1.1")
+        implementation ("com.google.firebase:firebase-database:20.3.0")
+        implementation ("com.google.firebase:firebase-storage:20.3.0")
 
 
     }
+    apply plugin: 'com.google.gms.google-services'
 }
 
 project(":core") {

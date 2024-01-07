@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.screens;
 
 public class Song {
     private int id;

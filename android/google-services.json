@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "436510848774",
+    "firebase_url": "https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "turing-citizen-345816",
     "storage_bucket": "turing-citizen-345816.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:436510848774:android:30357a186a1aa798f05087",
+        "mobilesdk_app_id": "1:436510848774:android:37d9ef9894148b9ef05087",
         "android_client_info": {
-          "package_name": "com.musicGame"
+          "package_name": "com.mygdx.game"
         }
       },
       "oauth_client": [],
