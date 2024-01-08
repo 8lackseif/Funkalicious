@@ -1,4 +1,4 @@
-package com.mygdx.game.screens;
+package com.mygdx.game;
 
 public class Song {
     private int id;
@@ -35,5 +35,11 @@ public class Song {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    @Override
+    public String toString(){
+        return  name + "\n" +
+                singer;
     }
 }

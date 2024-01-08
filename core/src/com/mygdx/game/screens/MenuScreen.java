@@ -9,17 +9,22 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.math.Interpolation;
-import com.mygdx.game.FirebaseInterface;
 import com.mygdx.game.Music;
+import com.mygdx.game.Song;
 
-import jdk.internal.net.http.common.Log;
+import java.util.Map;
 
 public class MenuScreen implements Screen,ApplicationListener, InputProcessor {
     private final Music app;
@@ -31,8 +36,8 @@ public class MenuScreen implements Screen,ApplicationListener, InputProcessor {
 
 
     //components
-    private TextButton buttonPlay, buttonExit;
-    private Table menuTable;
+    private ButtonGroup levelSelector;
+    private ScrollPane scroll;
     //variables
     private int currentIndex;
 
@@ -116,18 +121,10 @@ public class MenuScreen implements Screen,ApplicationListener, InputProcessor {
     // Handle input to scroll through the menu
     @Override
     public boolean keyDown(int keycode) {
-        if (currentIndex < menuTable.getRows() - 3) { // Assuming 3 visible items
-            currentIndex++;
-            updateMenuPosition();
-        }
         return true;
     }
     @Override
     public boolean keyUp(int keycode) {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateMenuPosition();
-        }
         return true;
     }
 
@@ -171,30 +168,27 @@ public class MenuScreen implements Screen,ApplicationListener, InputProcessor {
 
 
     private void initComponents(){
-        menuTable = new Table();
-        menuTable.setFillParent(true);
+        //get song list
+        Map<Integer, Song> list = app.FI.getList();
+        Gdx.app.log("menu",""+ list.size());
+        //create level selection menu
+        levelSelector = new ButtonGroup();
+        scroll = new ScrollPane(levelSelector.getChecked(),skin);
 
-        for (int i = 0; i < 10; i++) {
-            TextButton button = new TextButton("Item " + i, skin);
-            menuTable.add(button).pad(10f).row();
+        for (Song s: list.values()) {
+            TextButton button = new TextButton(s.toString(), skin);
+            levelSelector.add(button);
 
-            final int index = i;
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Item " + index + " clicked!");
                     // Handle item click
+                    Gdx.app.log("menu","clicked");
+
                 }
             });
-            stage.addActor(menuTable);
-            updateMenuPosition();
+            stage.addActor(scroll);
         }
-    }
-
-
-    private void updateMenuPosition() {
-        float targetY = -currentIndex * (menuTable.getHeight() / 3);
-        menuTable.addAction(Actions.moveTo(menuTable.getX(), targetY, 0.3f, Interpolation.smooth));
     }
 
     private void update(float delta) {
