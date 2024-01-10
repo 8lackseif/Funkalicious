@@ -1,7 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.mygdx.game.Music;
+import com.mygdx.game.Main.Music;
 
 public class LoadingScreen implements Screen {
     public LoadingScreen(Music music) {

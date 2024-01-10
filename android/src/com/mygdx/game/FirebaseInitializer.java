@@ -7,13 +7,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.data.FirebaseInterface;
+import com.mygdx.game.model.Song;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseInitializer implements FirebaseInterface {
     private DatabaseReference db;
-    private Map<Integer,Song> list;
+    private Map<Integer, Song> list;
 
     public FirebaseInitializer(){
          db = FirebaseDatabase.getInstance("https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app").getReference();

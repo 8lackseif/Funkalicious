@@ -1,4 +1,6 @@
-package com.mygdx.game;
+package com.mygdx.game.data;
+
+import com.mygdx.game.model.Song;
 
 import java.util.Map;
 

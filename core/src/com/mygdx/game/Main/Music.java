@@ -1,21 +1,23 @@
-package com.mygdx.game;
+package com.mygdx.game.Main;
 
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.data.FirebaseInterface;
+import com.mygdx.game.data.ResourcesManager;
+import com.mygdx.game.model.Song;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MenuScreen;
+
+import java.util.Map;
 
 public class Music extends Game {
 	//data managers
 	public FirebaseInterface FI;
-	public AssetManager assets;
+	public Map<Integer, Song> songs;
 
 	public OrthographicCamera camera;
 	public SpriteBatch batch;
@@ -23,6 +25,8 @@ public class Music extends Game {
 	//screens
 	public LoadingScreen loadingScreen;
 	public MenuScreen menuScreen;
+
+	public ResourcesManager rm;
 
 	//size of screen
 	 public static final int W = 896;
@@ -32,13 +36,13 @@ public class Music extends Game {
 
 	public Music(FirebaseInterface firebaseInitializer) {
 		FI = firebaseInitializer;
+		rm = new ResourcesManager();
+		songs = FI.getList();
 	}
 
 
 	@Override
 	public void create() {
-		assets = new AssetManager();
-		loadAssets();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, W, H);
 		batch = new SpriteBatch();
@@ -46,13 +50,6 @@ public class Music extends Game {
 		menuScreen = new MenuScreen(this);
 
 		this.setScreen(menuScreen);
-	}
-
-	private void loadAssets(){
-		assets.load("UI/uiskin.json", Skin.class);
-		assets.load("UI/uiskin.atlas", TextureAtlas.class);
-
-		assets.finishLoading();
 	}
 
 	@Override
@@ -65,7 +62,6 @@ public class Music extends Game {
 
 	@Override
 	public void dispose() {
-		assets.dispose();
 		loadingScreen.dispose();
 		menuScreen.dispose();
 	}
