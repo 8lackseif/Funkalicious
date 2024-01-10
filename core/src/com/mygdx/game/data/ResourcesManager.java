@@ -32,11 +32,14 @@ public class ResourcesManager {
         assetManager.load("textures.atlas", TextureAtlas.class);
         assetManager.load("skins/ui.atlas", TextureAtlas.class);
 
+
         assetManager.finishLoading();
 
         // load font
         pixel10 = new BitmapFont(Gdx.files.internal("fonts/pixel.fnt"), atlas.findRegion("pixel"), false);
+    }
 
+    public void init(){
         //load skin
 
         atlas = assetManager.get("textures.atlas", TextureAtlas.class);
