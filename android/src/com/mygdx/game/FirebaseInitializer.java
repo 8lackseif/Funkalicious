@@ -26,7 +26,7 @@ public class FirebaseInitializer implements FirebaseInterface {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int id = 1;
+                int id = 0;
                 for (DataSnapshot song: dataSnapshot.getChildren()) {
                     list.put(id,new Song(id,
                             song.child("name").getValue(String.class),

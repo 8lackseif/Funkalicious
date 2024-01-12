@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Main.Music;
+import com.mygdx.game.data.ResourceManager;
 
 public abstract class AbstractMenuScreen extends AbstractScreen {
 
@@ -48,8 +49,8 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected Label.LabelStyle[] nameStyles;
 
 
-    public AbstractMenuScreen(Music game) {
-        super(game);
+    public AbstractMenuScreen(Music game, ResourceManager rm) {
+        super(game,rm);
         initComponents();
     }
 
@@ -60,16 +61,16 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         enterButtonGroup.setTransform(false);
 
         nameStyles = new Label.LabelStyle[3];
-        nameStyles[0] = new Label.LabelStyle(game.rm.pixel10, new Color(0, 225.f / 255, 0, 1));
-        nameStyles[1] = new Label.LabelStyle(game.rm.pixel10, new Color(200 / 225.f, 0, 0, 1));
-        nameStyles[2] = new Label.LabelStyle(game.rm.pixel10, new Color(150 / 255.f, 1, 1, 1));
+        nameStyles[0] = new Label.LabelStyle(rm.pixel10, new Color(0, 225.f / 255, 0, 1));
+        nameStyles[1] = new Label.LabelStyle(rm.pixel10, new Color(200 / 225.f, 0, 0, 1));
+        nameStyles[2] = new Label.LabelStyle(rm.pixel10, new Color(150 / 255.f, 1, 1, 1));
 
         ImageButton.ImageButtonStyle enterStyle = new ImageButton.ImageButtonStyle();
-        enterStyle.imageUp = new TextureRegionDrawable(game.rm.enterButton[0][0]);
-        enterStyle.imageDown = new TextureRegionDrawable(game.rm.enterButton[1][0]);
+        enterStyle.imageUp = new TextureRegionDrawable(rm.enterButton[0][0]);
+        enterStyle.imageDown = new TextureRegionDrawable(rm.enterButton[1][0]);
         enterButton = new ImageButton(enterStyle);
 
-        enterLabel = new Label("ENTER", new Label.LabelStyle(game.rm.pixel10, new Color(79 / 255.f, 79 / 255.f, 117 / 255.f, 1)));
+        enterLabel = new Label("ENTER", new Label.LabelStyle(rm.pixel10, new Color(79 / 255.f, 79 / 255.f, 117 / 255.f, 1)));
         enterLabel.setTouchable(Touchable.disabled);
         enterLabel.setSize(79, 28);
         enterLabel.setAlignment(Align.center);
@@ -79,13 +80,13 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         enterButtonGroup.addActor(enterLabel);
 
         // create title label
-        banner = new Image(game.rm.skin, "default-slider");
+        banner = new Image(rm.skin, "default-slider");
         banner.setPosition(7, 102);
         banner.setSize(101, 12);
         stage.addActor(banner);
 
-        bannerLabel = new Label("", game.rm.skin);
-        bannerLabel.setStyle(new Label.LabelStyle(game.rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
+        bannerLabel = new Label("", rm.skin);
+        bannerLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
         bannerLabel.setSize(50, 12);
         bannerLabel.setTouchable(Touchable.disabled);
         bannerLabel.setPosition(10, 102);
@@ -93,12 +94,13 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         stage.addActor(bannerLabel);
 
         // create side description
-        descField = new Image(game.rm.skin, "default-slider");
+        descField = new Image(rm.skin, "default-slider");
         descField.setPosition(114, 36);
         descField.setSize(79, 64);
         stage.addActor(descField);
 
         //descripción
+        fullDescLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
         fullDescLabel.setPosition(118, 40);
         fullDescLabel.setSize(75, 56);
         fullDescLabel.setTouchable(Touchable.disabled);

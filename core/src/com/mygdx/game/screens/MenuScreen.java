@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Main.Music;
+import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.model.Song;
 
 public class MenuScreen extends AbstractMenuScreen {
@@ -26,8 +27,8 @@ public class MenuScreen extends AbstractMenuScreen {
     private int numLevelsToShow;
 
 
-    public MenuScreen(Music app){
-        super(app);
+    public MenuScreen(Music app, ResourceManager rm){
+        super(app,rm);
 
         handleEnterButton();
         createScrollPane();
@@ -39,11 +40,15 @@ public class MenuScreen extends AbstractMenuScreen {
     public void show() {
         super.show();
 
+        bannerLabel.setText("SELECT A SONG");
+        bannerLabel.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
+
         this.currentLevelIndex = game.songs.size();
         this.numLevelsToShow = game.songs.size();
 
         scrollTable.remove();
         createScrollPane();
+        fullDescLabel.setText(game.songs.get(worldIndex).getName());
     }
     @Override
     public void hide() {
@@ -87,10 +92,10 @@ public class MenuScreen extends AbstractMenuScreen {
     protected void createScrollPane() {
         //create level selection menu
         scrollButtons = new Array<TextButton>();
-        nameStyle = new Label.LabelStyle(game.rm.pixel10, Color.WHITE);
-        descStyle = new Label.LabelStyle(game.rm.pixel10, Color.WHITE);
+
+        descStyle = new Label.LabelStyle(rm.pixel10, Color.WHITE);
         songSelected = new TextButton.TextButtonStyle();
-        songSelected.up = new TextureRegionDrawable(game.rm.skin.getRegion("default-round-down"));
+        songSelected.up = new TextureRegionDrawable(rm.skin.getRegion("default-round-down"));
 
         scrollTable = new Table();
         scrollTable.setFillParent(true);
@@ -103,37 +108,38 @@ public class MenuScreen extends AbstractMenuScreen {
 
             // button and label group
             Group g = new Group();
-            g.setSize(90, 20);
+            g.setSize(90, 30);
             g.setTransform(false);
 
             Song s = game.songs.get(worldIndex);
 
-            Label name;
-            name = new Label(s.getName(), nameStyle);
-            name.setPosition(5, 10);
-            name.setFontScale(0.66f);
+            Label name = new Label(s.getName(), nameStyles[i]);
+            name.setPosition(5, 20);
+            name.setFontScale(1.7f / 2);
             name.setTouchable(Touchable.disabled);
             Label desc = new Label(s.getSinger(), descStyle);
-            desc.setPosition(5, 4);
+            desc.setPosition(5, 6);
             desc.setFontScale(0.5f);
             desc.setTouchable(Touchable.disabled);
 
-            final TextButton b = new TextButton("", game.rm.skin);
+            final TextButton b = new TextButton("", rm.skin);
             b.getStyle().checked = b.getStyle().down;
             b.getStyle().over = null;
-            if (i == currentLevelIndex) b.setChecked(true);
+            if (i == 0) b.setChecked(true);
 
             b.setTouchable(Touchable.enabled);
             scrollButtons.add(b);
 
-            // select level
+            name.setText(s.getName());
+            desc.setText(s.getSinger());
+
+            // select world
             b.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    currentLevelIndex = index;
-                    selectAt(currentLevelIndex);
-                    String levelName = game.songs.get(worldIndex).getName();
-                    //show player score TO-DO
+                    worldIndex = index;
+                    selectAt(worldIndex);
+                    fullDescLabel.setText(game.songs.get(worldIndex).toString());
                 }
             });
             b.setFillParent(true);
@@ -142,18 +148,18 @@ public class MenuScreen extends AbstractMenuScreen {
             g.addActor(name);
             g.addActor(desc);
 
-            selectionContainer.add(g).padBottom(4).size(90, 20).row();
+            selectionContainer.add(g).padBottom(4).size(90, 30).row();
         }
         selectionContainer.pack();
         selectionContainer.setTransform(false);
         selectionContainer.setOrigin(selectionContainer.getWidth() / 2,
                 selectionContainer.getHeight() / 2);
 
-        scrollPane = new ScrollPane(selectionContainer, game.rm.skin);
+        scrollPane = new ScrollPane(selectionContainer, rm.skin);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.layout();
-        scrollTable.add(scrollPane).size(112, 93).fill();
+        scrollTable.add(scrollPane).size(112, 101).fill();
         scrollTable.setPosition(-38, -10);
     }
 }

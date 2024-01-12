@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Main.Music;
+import com.mygdx.game.data.ResourceManager;
 
 public abstract class AbstractScreen implements Screen {
     protected final Music game;
@@ -18,9 +19,12 @@ public abstract class AbstractScreen implements Screen {
     protected boolean batchFade = true;
     protected boolean clickable = true;
 
-    protected AbstractScreen(Music game) {
+    protected ResourceManager rm;
+
+    protected AbstractScreen(Music game, ResourceManager rm) {
         this.game = game;
-        this.stage = new Stage(new FitViewport(Music.W, Music.H, game.camera));
+        this.rm = rm;
+        this.stage = new Stage(new FitViewport(Music.V_WIDTH, Music.V_HEIGHT, game.camera));
         this.shapeRenderer = new ShapeRenderer();
     }
 
@@ -79,7 +83,7 @@ public abstract class AbstractScreen implements Screen {
             batchFade = true;
             // slide animation
             stage.addAction(Actions.sequence(
-                    Actions.moveBy(right ? -game.W : game.H, 0, 0.15f),
+                    Actions.moveBy(right ? Music.V_WIDTH: Music.V_HEIGHT, 0, 0.15f),
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {

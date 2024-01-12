@@ -7,7 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.data.FirebaseInterface;
-import com.mygdx.game.data.ResourcesManager;
+import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.model.Song;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.MenuScreen;
@@ -26,18 +26,13 @@ public class Music extends Game {
 	public LoadingScreen loadingScreen;
 	public MenuScreen menuScreen;
 
-	public ResourcesManager rm;
-
 	//size of screen
-	 public static final int W = 896;
-	 public static final int H = 414;
-
-
+	public static final int V_WIDTH = 200;
+	public static final int V_HEIGHT = 120;
+	public static final int V_SCALE = 6;
 
 	public Music(FirebaseInterface firebaseInitializer) {
 		FI = firebaseInitializer;
-		rm = new ResourcesManager();
-		rm.init();
 		songs = FI.getList();
 	}
 
@@ -45,11 +40,10 @@ public class Music extends Game {
 	@Override
 	public void create() {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, W, H);
+		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		batch = new SpriteBatch();
 		loadingScreen = new LoadingScreen(this);
-		menuScreen = new MenuScreen(this);
-
+		menuScreen = new MenuScreen(this, new ResourceManager());
 		this.setScreen(menuScreen);
 	}
 
@@ -66,5 +60,4 @@ public class Music extends Game {
 		loadingScreen.dispose();
 		menuScreen.dispose();
 	}
-
 }
