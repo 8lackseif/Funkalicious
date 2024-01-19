@@ -68,7 +68,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         enterStyle.imageDown = new TextureRegionDrawable(rm.enterButton[1][0]);
         enterButton = new ImageButton(enterStyle);
 
-        enterLabel = new Label("ENTER", new Label.LabelStyle(rm.pixel10, new Color(79 / 255.f, 79 / 255.f, 117 / 255.f, 1)));
+        enterLabel = new Label("PLAY", new Label.LabelStyle(rm.pixel10, new Color(79 / 255.f, 79 / 255.f, 117 / 255.f, 1)));
         enterLabel.setTouchable(Touchable.disabled);
         enterLabel.setSize(79, 28);
         enterLabel.setAlignment(Align.center);
@@ -94,15 +94,15 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         // create side description
         descField = new Image(rm.skin, "default-slider");
         descField.setPosition(114, 36);
-        descField.setSize(79, 64);
+        descField.setSize(79, 80);
         stage.addActor(descField);
 
         //descripción
         scoreLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
         scoreLabel.setPosition(118, 40);
-        scoreLabel.setSize(75, 56);
+        scoreLabel.setSize(75, 72);
         scoreLabel.setTouchable(Touchable.disabled);
-        scoreLabel.setFontScale(0.5f);
+        scoreLabel.setFontScale(0.7f);
         scoreLabel.setWrap(true);
         scoreLabel.setAlignment(Align.topLeft);
         stage.addActor(scoreLabel);
@@ -134,7 +134,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             // fix fading
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
-            //render song background corresponding to the selected world
+            //render song background corresponding to the selected song
             if(img != null){
                 stage.getBatch().draw(img, 0, 0, Music.V_WIDTH,Music.V_HEIGHT);
             }

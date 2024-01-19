@@ -43,8 +43,8 @@ public class FirebaseInitializer implements FirebaseInterface {
                 int id = 0;
                 for (DataSnapshot song: dataSnapshot.getChildren()) {
                     list.put(id,new Song(id,
-                            song.child("name").getValue(String.class),
-                            song.child("singer").getValue(String.class),
+                            song.child("name").getValue(String.class).toUpperCase(),
+                            song.child("singer").getValue(String.class).toUpperCase(),
                             song.child("imagePath").getValue(String.class),
                             song.child("songPath").getValue(String.class),
                             song.child("songMap").getValue(String.class)));

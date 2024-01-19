@@ -54,7 +54,7 @@ public class MenuScreen extends AbstractMenuScreen {
         while(game.songs.get(worldIndex) == null){
 
         }
-        
+
         scoreLabel.setText(game.songs.get(worldIndex).toString());
         updateBackground();
 
@@ -179,7 +179,7 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollPane.setFadeScrollBars(false);
         scrollPane.layout();
         scrollTable.add(scrollPane).size(112, 101).fill();
-        scrollTable.setPosition(-38, -10);
+        scrollTable.setPosition(-46, -10);
     }
 
     private void updateBackground(){
