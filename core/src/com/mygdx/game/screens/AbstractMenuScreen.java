@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -22,9 +23,6 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
 
     protected int worldIndex;
 
-    // exit button
-    protected ImageButton exitButton;
-
     // play button
     protected Group enterButtonGroup;
     protected ImageButton enterButton;
@@ -36,7 +34,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
 
     // side description
     protected Image descField;
-    protected Label fullDescLabel;
+    protected Label scoreLabel;
 
     // scroll pane components
     protected Table scrollTable;
@@ -100,14 +98,14 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         stage.addActor(descField);
 
         //descripción
-        fullDescLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
-        fullDescLabel.setPosition(118, 40);
-        fullDescLabel.setSize(75, 56);
-        fullDescLabel.setTouchable(Touchable.disabled);
-        fullDescLabel.setFontScale(0.5f);
-        fullDescLabel.setWrap(true);
-        fullDescLabel.setAlignment(Align.topLeft);
-        stage.addActor(fullDescLabel);
+        scoreLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
+        scoreLabel.setPosition(118, 40);
+        scoreLabel.setSize(75, 56);
+        scoreLabel.setTouchable(Touchable.disabled);
+        scoreLabel.setFontScale(0.5f);
+        scoreLabel.setWrap(true);
+        scoreLabel.setAlignment(Align.topLeft);
+        stage.addActor(scoreLabel);
     }
 
     @Override
@@ -126,11 +124,9 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     }
 
     public void update(float dt) {}
-    public void render(float dt, int index) {
+    public void render(float dt, int index, Texture img) {
         update(dt);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (renderBatch) {
             stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
             stage.getBatch().begin();
@@ -138,8 +134,11 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             // fix fading
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
-            // render world background corresponding to the selected world
-            //stage.getBatch().draw(, 0, 0);
+            //render song background corresponding to the selected world
+            if(img != null){
+                stage.getBatch().draw(img, 0, 0, Music.V_WIDTH,Music.V_HEIGHT);
+            }
+
 
             stage.getBatch().end();
         }

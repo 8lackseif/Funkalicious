@@ -34,6 +34,7 @@ public class Music extends Game {
 	public Music(FirebaseInterface firebaseInitializer) {
 		FI = firebaseInitializer;
 		songs = FI.getList();
+
 	}
 
 

@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -14,24 +15,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Main.Music;
+import com.mygdx.game.data.Downloader;
 import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.model.Song;
 
 public class MenuScreen extends AbstractMenuScreen {
 
-    //variables
-    private int currentIndex;
-
     // current level selection
     private int currentLevelIndex;
     private int numLevelsToShow;
 
+    private String background;
+
 
     public MenuScreen(Music app, ResourceManager rm){
         super(app,rm);
-
+        background = "";
         handleEnterButton();
         createScrollPane();
+
     }
 
     //methods from Screen interface
@@ -43,12 +45,19 @@ public class MenuScreen extends AbstractMenuScreen {
         bannerLabel.setText("SELECT A SONG");
         bannerLabel.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
 
-        this.currentLevelIndex = game.songs.size();
         this.numLevelsToShow = game.songs.size();
 
         scrollTable.remove();
         createScrollPane();
-        fullDescLabel.setText(game.songs.get(worldIndex).getName());
+
+        //hasta que cargue los datos
+        while(game.songs.get(worldIndex) == null){
+
+        }
+        
+        scoreLabel.setText(game.songs.get(worldIndex).toString());
+        updateBackground();
+
     }
     @Override
     public void hide() {
@@ -64,7 +73,13 @@ public class MenuScreen extends AbstractMenuScreen {
 
     @Override
     public void render(float delta) {
-        super.render(delta, worldIndex);
+        Texture img = null;
+
+        if(!background.equals("")){
+            img = new Texture(Gdx.files.absolute(background));
+        }
+
+        super.render(delta, worldIndex,img);
     }
 
     @Override
@@ -111,7 +126,7 @@ public class MenuScreen extends AbstractMenuScreen {
             g.setSize(90, 30);
             g.setTransform(false);
 
-            Song s = game.songs.get(worldIndex);
+            Song s = game.songs.get(i);
 
             Label name = new Label(s.getName(), nameStyles[i]);
             name.setPosition(5, 20);
@@ -133,13 +148,17 @@ public class MenuScreen extends AbstractMenuScreen {
             name.setText(s.getName());
             desc.setText(s.getSinger());
 
-            // select world
             b.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    //when selected
                     worldIndex = index;
                     selectAt(worldIndex);
-                    fullDescLabel.setText(game.songs.get(worldIndex).toString());
+                    //score
+                    scoreLabel.setText(game.songs.get(worldIndex).toString());
+                    //background image
+                    updateBackground();
+
                 }
             });
             b.setFillParent(true);
@@ -161,5 +180,18 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollPane.layout();
         scrollTable.add(scrollPane).size(112, 101).fill();
         scrollTable.setPosition(-38, -10);
+    }
+
+    private void updateBackground(){
+        game.FI.getBackground(worldIndex, new Downloader() {
+            @Override
+            public void onDownloadComplete(String filePath) {
+                background = filePath;
+            }
+            @Override
+            public void onDownloadFailed(Exception exception) {
+                Gdx.app.error("firebase", "Download failed", exception);
+            }
+        });
     }
 }
