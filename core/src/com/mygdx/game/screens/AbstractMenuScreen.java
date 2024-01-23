@@ -40,7 +40,6 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected Table scrollTable;
     protected Table selectionContainer;
     protected ScrollPane scrollPane;
-    protected Label.LabelStyle nameStyle;
     protected Label.LabelStyle descStyle;
     protected TextButton.TextButtonStyle songSelected;
     protected Array<TextButton> scrollButtons;
@@ -53,7 +52,6 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     }
 
     private void initComponents(){
-
         enterButtonGroup = new Group();
         enterButtonGroup.setSize(79, 28);
         enterButtonGroup.setTransform(false);

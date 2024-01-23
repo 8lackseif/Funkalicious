@@ -2,10 +2,12 @@ package com.mygdx.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.lib.GifDecoder;
 
 public class ResourceManager {
     //textures
@@ -26,6 +28,8 @@ public class ResourceManager {
     public TextureRegion[][] menuExitButton;
     public TextureRegion[][] enterButton;
 
+    public Animation<TextureRegion> loading;
+
     public ResourceManager(){
             assetManager = new AssetManager();
             assetManager.load("textures.atlas", TextureAtlas.class);
@@ -37,8 +41,6 @@ public class ResourceManager {
             pixel10 = new BitmapFont(Gdx.files.internal("fonts/pixel.fnt"), atlas.findRegion("pixel"), false);
 
             //load skin
-
-
             skin = new Skin(atlas);
             skin.add("default-font", pixel10);
             skin.load(Gdx.files.internal("skins/ui.json"));
@@ -51,5 +53,8 @@ public class ResourceManager {
             worldSelectBackgrounds = atlas.findRegion("stage_select_bg").split(200, 120)[0];
             menuExitButton = atlas.findRegion("menu_exit_button").split(14, 14);
             enterButton = atlas.findRegion("enter_button").split(79, 28);
+
+            //gif
+            loading = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("resources/loading.gif").read());
     }
 }

@@ -1,20 +1,46 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Main.Music;
+import com.mygdx.game.data.ResourceManager;
 
-public class LoadingScreen implements Screen {
-    public LoadingScreen(Music music) {
+public class LoadingScreen extends AbstractScreen {
+    private float t;
+
+    public LoadingScreen(Music music, ResourceManager rm) {
+        super(music, rm);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
+        renderBatch = false;
+        batchFade = true;
     }
 
     @Override
     public void render(float delta) {
+        if (game.gameScreen != null) {
+            //change to game
+            game.setScreen(game.gameScreen);
+        }
 
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (renderBatch) {
+            stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
+            stage.getBatch().begin();
+
+            t += Gdx.graphics.getDeltaTime();
+            stage.getBatch().draw(rm.loading.getKeyFrame(t), 0f, -20.0f);
+
+            // fix fading
+            if (batchFade) stage.getBatch().setColor(Color.WHITE);
+            stage.getBatch().end();
+        }
+
+        super.render(delta);
     }
 
     @Override
@@ -39,6 +65,6 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

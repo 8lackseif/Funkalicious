@@ -2,7 +2,6 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,21 +21,17 @@ import com.mygdx.game.model.Song;
 public class MenuScreen extends AbstractMenuScreen {
 
     // current level selection
-    private int currentLevelIndex;
     private int numLevelsToShow;
 
     private String background;
 
 
-    public MenuScreen(Music app, ResourceManager rm){
-        super(app,rm);
+    public MenuScreen(Music app, ResourceManager rm) {
+        super(app, rm);
         background = "";
         handleEnterButton();
         createScrollPane();
-
     }
-
-    //methods from Screen interface
 
     @Override
     public void show() {
@@ -50,8 +45,8 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollTable.remove();
         createScrollPane();
 
-        //hasta que cargue los datos
-        while(game.songs.get(worldIndex) == null){
+        //until we get the data from firebase
+        while (game.songs.get(worldIndex) == null) {
 
         }
 
@@ -59,6 +54,7 @@ public class MenuScreen extends AbstractMenuScreen {
         updateBackground();
 
     }
+
     @Override
     public void hide() {
 
@@ -68,6 +64,7 @@ public class MenuScreen extends AbstractMenuScreen {
     public void dispose() {
         stage.dispose();
         shapeRenderer.dispose();
+        super.dispose();
     }
 
 
@@ -75,11 +72,11 @@ public class MenuScreen extends AbstractMenuScreen {
     public void render(float delta) {
         Texture img = null;
 
-        if(!background.equals("")){
+        if (!background.equals("")) {
             img = new Texture(Gdx.files.absolute(background));
         }
 
-        super.render(delta, worldIndex,img);
+        super.render(delta, worldIndex, img);
     }
 
     @Override
@@ -101,11 +98,19 @@ public class MenuScreen extends AbstractMenuScreen {
     protected void handleEnterButton() {
         enterButtonGroup.setPosition(114, 4);
         stage.addActor(enterButtonGroup);
+        enterButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //when play is clicked
+                game.createGame(worldIndex, background);
+                game.setScreen(game.loadingScreen);
+            }
+        });
     }
 
     @Override
     protected void createScrollPane() {
-        //create level selection menu
+        //create song selection menu
         scrollButtons = new Array<TextButton>();
 
         descStyle = new Label.LabelStyle(rm.pixel10, Color.WHITE);
@@ -151,12 +156,12 @@ public class MenuScreen extends AbstractMenuScreen {
             b.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    //when selected
+                    //when song is selected
                     worldIndex = index;
                     selectAt(worldIndex);
-                    //score
+                    //show last best score for selected song
                     scoreLabel.setText(game.songs.get(worldIndex).toString());
-                    //background image
+                    //change background image to selected one
                     updateBackground();
 
                 }
@@ -179,15 +184,16 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollPane.setFadeScrollBars(false);
         scrollPane.layout();
         scrollTable.add(scrollPane).size(112, 101).fill();
-        scrollTable.setPosition(-46, -10);
+        scrollTable.setPosition(-38, -10);
     }
 
-    private void updateBackground(){
+    private void updateBackground() {
         game.FI.getBackground(worldIndex, new Downloader() {
             @Override
             public void onDownloadComplete(String filePath) {
                 background = filePath;
             }
+
             @Override
             public void onDownloadFailed(Exception exception) {
                 Gdx.app.error("firebase", "Download failed", exception);

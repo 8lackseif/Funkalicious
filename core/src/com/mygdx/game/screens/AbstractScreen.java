@@ -1,11 +1,8 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Main.Music;
 import com.mygdx.game.data.ResourceManager;
@@ -60,40 +57,6 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public Music getGame() { return game; }
-
-
-    public void setFadeScreen(final Screen screen) {
-        if (clickable) {
-            clickable = false;
-            batchFade = false;
-            // fade out animation
-            stage.addAction(Actions.sequence(Actions.fadeOut(0.3f),
-                    Actions.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            clickable = true;
-                            game.setScreen(screen);
-                        }
-                    })));
-        }
-    }
-
-    public void setSlideScreen(final Screen screen, boolean right) {
-        if (clickable) {
-            clickable = false;
-            batchFade = true;
-            // slide animation
-            stage.addAction(Actions.sequence(
-                    Actions.moveBy(right ? Music.V_WIDTH: Music.V_HEIGHT, 0, 0.15f),
-                    Actions.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            clickable = true;
-                            game.setScreen(screen);
-                        }
-                    })));
-        }
-    }
 
     public boolean isRenderBatch() {
         return renderBatch;

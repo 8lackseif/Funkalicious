@@ -1,24 +1,16 @@
 package com.mygdx.game;
 
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mygdx.game.data.Downloader;
 import com.mygdx.game.data.FirebaseInterface;
 import com.mygdx.game.model.Song;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -73,6 +65,21 @@ public class FirebaseInitializer implements FirebaseInterface {
         try {
             int dot = file.indexOf(".");
             File temp = File.createTempFile(file.substring(0,dot), file.substring(dot));
+
+            download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                d.onDownloadComplete(temp.getAbsolutePath());
+            }).addOnFailureListener(d::onDownloadFailed);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void getBGM(String songPath, Downloader d) {
+        StorageReference download = sr.child("canciones/" + songPath);
+        try {
+            int dot = songPath.indexOf(".");
+            File temp = File.createTempFile(songPath.substring(0,dot), songPath.substring(dot));
 
             download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
                 d.onDownloadComplete(temp.getAbsolutePath());
