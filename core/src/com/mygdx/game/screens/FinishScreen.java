@@ -6,63 +6,35 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.Main.Music;
-import com.mygdx.game.data.Downloader;
 import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.model.Score;
 import com.mygdx.game.model.Song;
 
-public class GameScreen extends AbstractScreen {
-    private Song s;
-    private Texture background;
-
-    private String songPath;
-
-    private com.badlogic.gdx.audio.Music music;
-
+public class FinishScreen extends AbstractScreen {
     private Score score;
 
+    private Texture background;
 
-    public GameScreen(Music game, ResourceManager rm, Song s) {
+    protected FinishScreen(Music game, ResourceManager rm, Score score, Song s) {
         super(game, rm);
-        this.s = s;
+        this.score = score;
         this.background = new Texture(Gdx.files.absolute(s.getLocalImagePath()));
-
-        //download the song
-        game.FI.getBGM(s.getSongPath(), new Downloader() {
-                @Override
-                public void onDownloadComplete(String filePath) {
-                    songPath = filePath;
-                    download();
-                }
-
-                @Override
-                public void onDownloadFailed(Exception exception) {
-                    Gdx.app.error("firebase", "Download failed", exception);
-                }
-        });
     }
-
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         renderBatch = false;
         batchFade = true;
-
-        // fade-in animation
+        // fade in animation
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.run(new Runnable() {
             @Override
             public void run() {
                 renderBatch = true;
             }
         }), Actions.fadeIn(0.5f)));
-        //render the map
 
-
-        //play music
-        music = Gdx.audio.newMusic(Gdx.files.absolute(songPath));
-        music.setVolume(2.0f);
-        music.play();
+        showScore();
     }
 
     public void render(float dt) {
@@ -78,16 +50,14 @@ public class GameScreen extends AbstractScreen {
             if(background != null){
                 stage.getBatch().draw(background, 0, 0, Music.V_WIDTH,Music.V_HEIGHT);
             }
-            //aqui dibujo las fichas
-
             stage.getBatch().end();
         }
 
         super.render(dt);
     }
 
-    public void download(){
-        s.setLocalSongPath(songPath);
-        game.downloaded = true;
+    private void showScore(){
+        //inicializar componentes con la clase Score con los datos
     }
+
 }

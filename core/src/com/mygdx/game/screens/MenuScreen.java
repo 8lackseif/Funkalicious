@@ -102,8 +102,8 @@ public class MenuScreen extends AbstractMenuScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //when play is clicked
-                game.createGame(worldIndex, background);
                 game.setScreen(game.loadingScreen);
+                game.createGame(worldIndex);
             }
         });
     }
@@ -188,16 +188,24 @@ public class MenuScreen extends AbstractMenuScreen {
     }
 
     private void updateBackground() {
-        game.FI.getBackground(worldIndex, new Downloader() {
-            @Override
-            public void onDownloadComplete(String filePath) {
-                background = filePath;
-            }
+        String path = game.songs.get(worldIndex).getLocalImagePath();
+        if(path.equals("")){
+            game.FI.getBackground(worldIndex, new Downloader() {
+                @Override
+                public void onDownloadComplete(String filePath) {
+                    game.songs.get(worldIndex).setLocalImagePath(filePath);
+                    background = filePath;
+                }
 
-            @Override
-            public void onDownloadFailed(Exception exception) {
-                Gdx.app.error("firebase", "Download failed", exception);
-            }
-        });
+                @Override
+                public void onDownloadFailed(Exception exception) {
+                    Gdx.app.error("firebase", "Download failed", exception);
+                }
+            });
+        }
+        else{
+            background = path;
+        }
+
     }
 }

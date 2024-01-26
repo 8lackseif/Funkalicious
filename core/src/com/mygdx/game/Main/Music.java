@@ -29,6 +29,8 @@ public class Music extends Game {
 
     public GameScreen gameScreen;
 
+    public boolean downloaded;
+
     //size of screen
     public static final int V_WIDTH = 200;
     public static final int V_HEIGHT = 120;
@@ -37,7 +39,7 @@ public class Music extends Game {
     public Music(FirebaseInterface firebaseInitializer) {
         FI = firebaseInitializer;
         songs = FI.getList();
-        songs = FI.getList();
+        downloaded = false;
     }
 
 
@@ -51,10 +53,10 @@ public class Music extends Game {
         this.setScreen(menuScreen);
     }
 
-    public void createGame(int i, String background) {
+    public void createGame(int i) {
         //load game content
         Song s = songs.get(i);
-        gameScreen = new GameScreen(this, new ResourceManager(), s, background);
+        gameScreen = new GameScreen(this, new ResourceManager(), s);
     }
 
     @Override
