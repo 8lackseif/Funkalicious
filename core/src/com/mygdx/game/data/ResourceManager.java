@@ -2,6 +2,7 @@ package com.mygdx.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -30,31 +31,38 @@ public class ResourceManager {
 
     public Animation<TextureRegion> loading;
 
-    public ResourceManager(){
-            assetManager = new AssetManager();
-            assetManager.load("textures.atlas", TextureAtlas.class);
+    public Texture[] tiles;
 
-            assetManager.finishLoading();
-            //atlas
-            atlas = assetManager.get("textures.atlas", TextureAtlas.class);
-            // load font
-            pixel10 = new BitmapFont(Gdx.files.internal("fonts/pixel.fnt"), atlas.findRegion("pixel"), false);
+    public ResourceManager() {
+        assetManager = new AssetManager();
+        assetManager.load("textures.atlas", TextureAtlas.class);
 
-            //load skin
-            skin = new Skin(atlas);
-            skin.add("default-font", pixel10);
-            skin.load(Gdx.files.internal("skins/ui.json"));
+        assetManager.finishLoading();
+        //atlas
+        atlas = assetManager.get("textures.atlas", TextureAtlas.class);
+        // load font
+        pixel10 = new BitmapFont(Gdx.files.internal("fonts/pixel.fnt"), atlas.findRegion("pixel"), false);
 
-            // menu
-            title = atlas.findRegion("unlucky_title").split(18, 24)[0];
-            titleScreenBackground = atlas.findRegion("title_bg").split(200, 120)[0];
-            playButton = atlas.findRegion("play_button").split(80, 40);
-            menuButtons = atlas.findRegion("menu_buttons").split(16, 16);
-            worldSelectBackgrounds = atlas.findRegion("stage_select_bg").split(200, 120)[0];
-            menuExitButton = atlas.findRegion("menu_exit_button").split(14, 14);
-            enterButton = atlas.findRegion("enter_button").split(79, 28);
+        //load skin
+        skin = new Skin(atlas);
+        skin.add("default-font", pixel10);
+        skin.load(Gdx.files.internal("skins/ui.json"));
 
-            //gif
-            loading = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("resources/loading.gif").read());
+        // menu
+        title = atlas.findRegion("unlucky_title").split(18, 24)[0];
+        titleScreenBackground = atlas.findRegion("title_bg").split(200, 120)[0];
+        playButton = atlas.findRegion("play_button").split(80, 40);
+        menuButtons = atlas.findRegion("menu_buttons").split(16, 16);
+        worldSelectBackgrounds = atlas.findRegion("stage_select_bg").split(200, 120)[0];
+        menuExitButton = atlas.findRegion("menu_exit_button").split(14, 14);
+        enterButton = atlas.findRegion("enter_button").split(79, 28);
+
+        //gif
+        loading = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("resources/loading.gif").read());
+
+        //tiles
+        tiles = new Texture[4];
+        tiles[0] = null;
+
     }
 }

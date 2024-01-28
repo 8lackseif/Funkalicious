@@ -17,6 +17,8 @@ public abstract class AbstractScreen implements Screen {
     protected boolean batchFade = true;
     protected boolean clickable = true;
 
+    protected final String cache = "/data/user/0/com.mygdx.game/cache/";
+
     protected ResourceManager rm;
 
     protected AbstractScreen(Music game, ResourceManager rm) {
@@ -33,19 +35,24 @@ public abstract class AbstractScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {}
+    public void resize(int width, int height) {
+    }
 
     @Override
-    public void show() {}
+    public void show() {
+    }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
@@ -56,7 +63,9 @@ public abstract class AbstractScreen implements Screen {
         return stage;
     }
 
-    public Music getGame() { return game; }
+    public Music getGame() {
+        return game;
+    }
 
     public boolean isRenderBatch() {
         return renderBatch;

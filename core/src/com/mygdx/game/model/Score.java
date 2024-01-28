@@ -49,12 +49,11 @@ public class Score {
     public void calculateScore() {
         for (int combo : combos) {
             int multiplier = 1;
-            while (combo > 0){
-                if((combo-20) <= 0){
-                    score += combo+100*multiplier;
-                }
-                else{
-                    score += 20+100*multiplier;
+            while (combo > 0) {
+                if ((combo - 20) <= 0) {
+                    score += combo + 100 * multiplier;
+                } else {
+                    score += 20 + 100 * multiplier;
                     combo -= 20;
                 }
             }

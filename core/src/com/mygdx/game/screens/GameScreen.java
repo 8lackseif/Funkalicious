@@ -14,9 +14,6 @@ import com.mygdx.game.model.Song;
 public class GameScreen extends AbstractScreen {
     private Song s;
     private Texture background;
-
-    private String songPath;
-
     private com.badlogic.gdx.audio.Music music;
 
     private Score score;
@@ -25,20 +22,19 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(Music game, ResourceManager rm, Song s) {
         super(game, rm);
         this.s = s;
-        this.background = new Texture(Gdx.files.absolute(s.getLocalImagePath()));
+        this.background = new Texture(Gdx.files.absolute(cache + s.getImagePath()));
 
         //download the song
         game.FI.getBGM(s.getSongPath(), new Downloader() {
-                @Override
-                public void onDownloadComplete(String filePath) {
-                    songPath = filePath;
-                    download();
-                }
+            @Override
+            public void onDownloadComplete(String filePath) {
+                download();
+            }
 
-                @Override
-                public void onDownloadFailed(Exception exception) {
-                    Gdx.app.error("firebase", "Download failed", exception);
-                }
+            @Override
+            public void onDownloadFailed(Exception exception) {
+                Gdx.app.error("firebase", "Download failed", exception);
+            }
         });
     }
 
@@ -60,12 +56,16 @@ public class GameScreen extends AbstractScreen {
 
 
         //play music
-        music = Gdx.audio.newMusic(Gdx.files.absolute(songPath));
+        music = Gdx.audio.newMusic(Gdx.files.absolute(cache + s.getSongPath()));
         music.setVolume(2.0f);
         music.play();
     }
 
     public void render(float dt) {
+        if(!music.isPlaying()){
+            game.setScreen((game.menuScreen = new MenuScreen(game,rm)));
+        }
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (renderBatch) {
             stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
@@ -75,8 +75,11 @@ public class GameScreen extends AbstractScreen {
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
             //render song background corresponding to the selected song
-            if(background != null){
-                stage.getBatch().draw(background, 0, 0, Music.V_WIDTH,Music.V_HEIGHT);
+            if (background != null) {
+                Color oldC = stage.getBatch().getColor();
+                stage.getBatch().setColor(new Color(0.5f, oldC.g, oldC.b, oldC.a));
+                stage.getBatch().draw(background, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
+                stage.getBatch().setColor(oldC);
             }
             //aqui dibujo las fichas
 
@@ -86,8 +89,7 @@ public class GameScreen extends AbstractScreen {
         super.render(dt);
     }
 
-    public void download(){
-        s.setLocalSongPath(songPath);
+    public void download() {
         game.downloaded = true;
     }
 }

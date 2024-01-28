@@ -23,12 +23,11 @@ public class MenuScreen extends AbstractMenuScreen {
     // current level selection
     private int numLevelsToShow;
 
-    private String background;
+
 
 
     public MenuScreen(Music app, ResourceManager rm) {
         super(app, rm);
-        background = "";
         handleEnterButton();
         createScrollPane();
     }
@@ -70,13 +69,7 @@ public class MenuScreen extends AbstractMenuScreen {
 
     @Override
     public void render(float delta) {
-        Texture img = null;
-
-        if (!background.equals("")) {
-            img = new Texture(Gdx.files.absolute(background));
-        }
-
-        super.render(delta, worldIndex, img);
+        super.render(delta, worldIndex);
     }
 
     @Override
@@ -188,13 +181,9 @@ public class MenuScreen extends AbstractMenuScreen {
     }
 
     private void updateBackground() {
-        String path = game.songs.get(worldIndex).getLocalImagePath();
-        if(path.equals("")){
             game.FI.getBackground(worldIndex, new Downloader() {
                 @Override
                 public void onDownloadComplete(String filePath) {
-                    game.songs.get(worldIndex).setLocalImagePath(filePath);
-                    background = filePath;
                 }
 
                 @Override
@@ -202,10 +191,5 @@ public class MenuScreen extends AbstractMenuScreen {
                     Gdx.app.error("firebase", "Download failed", exception);
                 }
             });
-        }
-        else{
-            background = path;
-        }
-
     }
 }

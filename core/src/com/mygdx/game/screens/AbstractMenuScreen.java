@@ -47,11 +47,11 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
 
 
     public AbstractMenuScreen(Music game, ResourceManager rm) {
-        super(game,rm);
+        super(game, rm);
         initComponents();
     }
 
-    private void initComponents(){
+    private void initComponents() {
         enterButtonGroup = new Group();
         enterButtonGroup.setSize(79, 28);
         enterButtonGroup.setTransform(false);
@@ -121,8 +121,10 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         }), Actions.fadeIn(0.5f)));
     }
 
-    public void update(float dt) {}
-    public void render(float dt, int index, Texture img) {
+    public void update(float dt) {
+    }
+
+    public void render(float dt, int index) {
         update(dt);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (renderBatch) {
@@ -133,9 +135,8 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
             //render song background corresponding to the selected song
-            if(img != null){
-                stage.getBatch().draw(img, 0, 0, Music.V_WIDTH,Music.V_HEIGHT);
-            }
+            Texture img = new Texture(Gdx.files.absolute(cache + game.songs.get(index).getImagePath()));
+            stage.getBatch().draw(img, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
 
 
             stage.getBatch().end();
@@ -143,6 +144,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
 
         super.render(dt);
     }
+
     protected void selectAt(int index) {
         for (TextButton t : scrollButtons) {
             if (t.isChecked()) t.setChecked(false);
@@ -151,6 +153,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     }
 
     protected abstract void handleEnterButton();
+
     protected abstract void createScrollPane();
 
     @Override

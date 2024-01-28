@@ -13,6 +13,8 @@ import com.mygdx.game.data.FirebaseInterface;
 import com.mygdx.game.model.Song;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class FirebaseInitializer implements FirebaseInterface {
     private Map<Integer, Song> list;
 
     private StorageReference sr;
+    private final String cache = "/data/user/0/com.mygdx.game/cache/";
 
     public FirebaseInitializer(){
          db = FirebaseDatabase.getInstance("https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app").getReference();
@@ -60,32 +63,38 @@ public class FirebaseInitializer implements FirebaseInterface {
     @Override
     public void getBackground(int index, Downloader d) {
         String file = list.get(index).getImagePath();
-        StorageReference download = sr.child("imagenes/" + file);
 
-        try {
-            int dot = file.indexOf(".");
-            File temp = File.createTempFile(file.substring(0,dot), file.substring(dot));
-
-            download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
-                d.onDownloadComplete(temp.getAbsolutePath());
-            }).addOnFailureListener(d::onDownloadFailed);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!new File(cache + file).exists()){
+            StorageReference download = sr.child("imagenes/" + file);
+            try {
+                int dot = file.indexOf(".");
+                File auxtemp = File.createTempFile(file.substring(0,dot), file.substring(dot));
+                Files.move(Paths.get(auxtemp.getAbsolutePath()), Paths.get(cache + file));
+                File temp = new File(cache + file);
+                download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                    d.onDownloadComplete(temp.getAbsolutePath());
+                }).addOnFailureListener(d::onDownloadFailed);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     @Override
     public void getBGM(String songPath, Downloader d) {
-        StorageReference download = sr.child("canciones/" + songPath);
-        try {
-            int dot = songPath.indexOf(".");
-            File temp = File.createTempFile(songPath.substring(0,dot), songPath.substring(dot));
-
-            download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
-                d.onDownloadComplete(temp.getAbsolutePath());
-            }).addOnFailureListener(d::onDownloadFailed);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!new File(cache + songPath).exists()){
+            StorageReference download = sr.child("canciones/" + songPath);
+            try {
+                int dot = songPath.indexOf(".");
+                File auxtemp = File.createTempFile(songPath.substring(0,dot), songPath.substring(dot));
+                Files.move(Paths.get(auxtemp.getAbsolutePath()), Paths.get(cache + songPath));
+                File temp = new File(cache + songPath);
+                download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                    d.onDownloadComplete(temp.getAbsolutePath());
+                }).addOnFailureListener(d::onDownloadFailed);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

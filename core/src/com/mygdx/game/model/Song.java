@@ -2,40 +2,23 @@ package com.mygdx.game.model;
 
 public class Song {
     private int id;
-    private String name, singer,imagePath,songPath,songMap;
+    private String name, singer, imagePath, songPath, songMap;
 
-    private String localSongPath, localImagePath;
 
-    public Song(int id,String name, String singer, String imagePath, String songPath,String songMap){
+    public Song(int id, String name, String singer, String imagePath, String songPath, String songMap) {
         this.id = id;
         this.name = name;
         this.singer = singer;
         this.imagePath = imagePath;
         this.songPath = songPath;
         this.songMap = songMap;
-        localImagePath = "";
-        localImagePath = "";
-    }
-
-    public String getLocalSongPath(){
-        return localSongPath;
-    }
-    public void setLocalSongPath(String path){
-        localSongPath = path;
-    }
-
-    public String getLocalImagePath() {
-        return localImagePath;
-    }
-    public void setLocalImagePath(String path){
-        localImagePath = path;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -56,8 +39,8 @@ public class Song {
     }
 
     @Override
-    public String toString(){
-        return  name + "\n" +
+    public String toString() {
+        return name + "\n" +
                 singer;
     }
 }
