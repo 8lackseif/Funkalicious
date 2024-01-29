@@ -31,7 +31,7 @@ public class ResourceManager {
 
     public Animation<TextureRegion> loading;
 
-    public Texture[] tiles;
+    public TextureRegion[] tiles;
 
     public ResourceManager() {
         assetManager = new AssetManager();
@@ -61,8 +61,11 @@ public class ResourceManager {
         loading = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("resources/loading.gif").read());
 
         //tiles
-        tiles = new Texture[4];
+        tiles = new TextureRegion[4];
         tiles[0] = null;
+        tiles[1] = new TextureRegion(new Texture(Gdx.files.internal("resources/botonNormal.png")));
+        tiles[2] = new TextureRegion(new Texture(Gdx.files.internal("resources/botonMantenido.png")));
+        tiles[3] = new TextureRegion(new Texture(Gdx.files.internal("resources/rastroBoton.png")));
 
     }
 }

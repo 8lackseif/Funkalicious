@@ -49,7 +49,7 @@ public class FinishScreen extends AbstractScreen {
             //render song background corresponding to the selected song
             if (background != null) {
                 Color oldC = stage.getBatch().getColor();
-                stage.getBatch().setColor(new Color(0.5f, oldC.g, oldC.b, oldC.a));
+                stage.getBatch().setColor(new Color(oldC.r, oldC.g, oldC.b, 0.5f));
                 stage.getBatch().draw(background, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
                 stage.getBatch().setColor(oldC);
             }

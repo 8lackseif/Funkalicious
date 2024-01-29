@@ -30,6 +30,7 @@ public class MenuScreen extends AbstractMenuScreen {
         super(app, rm);
         handleEnterButton();
         createScrollPane();
+        app.FI.getBackgrounds(app.songs);
     }
 
     @Override
@@ -50,7 +51,6 @@ public class MenuScreen extends AbstractMenuScreen {
         }
 
         scoreLabel.setText(game.songs.get(worldIndex).toString());
-        updateBackground();
 
     }
 
@@ -150,12 +150,12 @@ public class MenuScreen extends AbstractMenuScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     //when song is selected
-                    worldIndex = index;
-                    selectAt(worldIndex);
+                    selectAt(index);
                     //show last best score for selected song
-                    scoreLabel.setText(game.songs.get(worldIndex).toString());
-                    //change background image to selected one
-                    updateBackground();
+                    scoreLabel.setText(game.songs.get(index).toString());
+                    worldIndex = index;
+
+
 
                 }
             });
@@ -178,18 +178,5 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollPane.layout();
         scrollTable.add(scrollPane).size(112, 101).fill();
         scrollTable.setPosition(-38, -10);
-    }
-
-    private void updateBackground() {
-            game.FI.getBackground(worldIndex, new Downloader() {
-                @Override
-                public void onDownloadComplete(String filePath) {
-                }
-
-                @Override
-                public void onDownloadFailed(Exception exception) {
-                    Gdx.app.error("firebase", "Download failed", exception);
-                }
-            });
     }
 }

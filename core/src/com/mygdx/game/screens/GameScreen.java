@@ -14,6 +14,7 @@ import com.mygdx.game.model.Song;
 public class GameScreen extends AbstractScreen {
     private Song s;
     private Texture background;
+
     private com.badlogic.gdx.audio.Music music;
 
     private Score score;
@@ -26,16 +27,17 @@ public class GameScreen extends AbstractScreen {
 
         //download the song
         game.FI.getBGM(s.getSongPath(), new Downloader() {
-            @Override
-            public void onDownloadComplete(String filePath) {
-                download();
-            }
+                @Override
+                public void onDownloadComplete(String filePath) {
+                    download();
+                }
 
-            @Override
-            public void onDownloadFailed(Exception exception) {
-                Gdx.app.error("firebase", "Download failed", exception);
-            }
+                @Override
+                public void onDownloadFailed(Exception exception) {
+                    Gdx.app.error("firebase", "Download failed", exception);
+                }
         });
+        this.score = new Score(s.getId());
     }
 
 
@@ -56,8 +58,7 @@ public class GameScreen extends AbstractScreen {
 
 
         //play music
-        music = Gdx.audio.newMusic(Gdx.files.absolute(cache + s.getSongPath()));
-        music.setVolume(2.0f);
+        music = Gdx.audio.newMusic(Gdx.files.absolute(cache+s.getSongPath()));
         music.play();
     }
 
@@ -65,7 +66,6 @@ public class GameScreen extends AbstractScreen {
         if(!music.isPlaying()){
             game.setScreen((game.menuScreen = new MenuScreen(game,rm)));
         }
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (renderBatch) {
             stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
@@ -75,9 +75,9 @@ public class GameScreen extends AbstractScreen {
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
             //render song background corresponding to the selected song
-            if (background != null) {
+            if(background != null){
                 Color oldC = stage.getBatch().getColor();
-                stage.getBatch().setColor(new Color(0.5f, oldC.g, oldC.b, oldC.a));
+                stage.getBatch().setColor(new Color(oldC.r, oldC.g, oldC.b, 0.5f));
                 stage.getBatch().draw(background, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
                 stage.getBatch().setColor(oldC);
             }
@@ -89,7 +89,7 @@ public class GameScreen extends AbstractScreen {
         super.render(dt);
     }
 
-    public void download() {
+    public void download(){
         game.downloaded = true;
     }
 }

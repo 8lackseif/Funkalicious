@@ -6,7 +6,7 @@ import java.util.Map;
 public interface FirebaseInterface {
     public Map<Integer, Song> getList();
 
-    public void getBackground(int index,Downloader d);
+    public void getBackgrounds(Map<Integer, Song> songs);
 
     public void getBGM(String songPath,Downloader d);
 }
