@@ -11,8 +11,6 @@ public class Score {
     private ArrayList<Integer> combos;
 
     private int maxCombo;
-
-
     private int hits;
     private int fails;
 
@@ -47,6 +45,7 @@ public class Score {
     }
 
     public void calculateScore() {
+        score = 0;
         for (int combo : combos) {
             int multiplier = 1;
             while (combo > 0) {
@@ -59,6 +58,4 @@ public class Score {
             }
         }
     }
-
-
 }
