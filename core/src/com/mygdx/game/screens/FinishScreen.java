@@ -18,7 +18,7 @@ public class FinishScreen extends AbstractScreen {
     protected FinishScreen(Music game, ResourceManager rm, Score score, Song s) {
         super(game, rm);
         this.score = score;
-        this.background = new Texture(Gdx.files.absolute(cache + s.getImagePath()));
+        this.background = new Texture(Gdx.files.internal(path + s.getImagePath()));
     }
 
     @Override

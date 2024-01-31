@@ -54,7 +54,7 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(Music game, ResourceManager rm, Song s) {
         super(game, rm);
         this.s = s;
-        this.background = new Texture(Gdx.files.absolute(cache + s.getImagePath()));
+        this.background = new Texture(Gdx.files.internal(path + s.getImagePath()));
         tilesOnMap = new HashMap<>();
         actualcombo = 0;
         n = 0;
@@ -98,7 +98,7 @@ public class GameScreen extends AbstractScreen {
 
 
         //play music
-        music = Gdx.audio.newMusic(Gdx.files.absolute(cache + s.getSongPath()));
+        music = Gdx.audio.newMusic(Gdx.files.internal(path + s.getSongPath()));
         music.play();
     }
 

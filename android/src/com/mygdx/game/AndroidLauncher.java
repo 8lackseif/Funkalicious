@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -13,7 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-
 		initialize(new Music(new FirebaseInitializer()), config);
 	}
 }

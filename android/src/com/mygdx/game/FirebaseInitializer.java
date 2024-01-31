@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,13 +27,11 @@ public class FirebaseInitializer implements FirebaseInterface {
     private Map<Integer, Song> list;
 
     private StorageReference sr;
-    private final String cache;
 
     public FirebaseInitializer() {
         db = FirebaseDatabase.getInstance("https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app").getReference();
         sr = FirebaseStorage.getInstance("gs://turing-citizen-345816.appspot.com").getReference();
         list = new HashMap<Integer, Song>();
-        cache = System.getProperty("java.io.tmpdir") + "/";
         getSongs();
     }
 
@@ -69,40 +69,35 @@ public class FirebaseInitializer implements FirebaseInterface {
     public void getBackgrounds(Map<Integer, Song> songs) {
         for (int i = 0; i < songs.size(); i++) {
             String file = songs.get(i).getImagePath();
-            if (!new File(cache + file).exists()) {
+            if (!Gdx.files.internal("media/" + file).exists()) {
                 StorageReference download = sr.child("imagenes/" + file);
+                File temp = Gdx.files.internal("media/" + file).file();
                 try {
-                    int dot = file.indexOf(".");
-                    File auxtemp = File.createTempFile(file.substring(0, dot), file.substring(dot));
-                    Files.move(Paths.get(auxtemp.getAbsolutePath()), Paths.get(cache + file));
-                    File temp = new File(cache + file);
-
-                    download.getFile(temp);
+                    Gdx.app.log("assets",temp.getAbsolutePath());
+                    temp.createNewFile();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                download.getFile(temp);
             }
         }
     }
 
     @Override
     public void getBGM(String songPath, Downloader d) {
-        if (!new File(cache + songPath).exists()) {
+        if (!Gdx.files.internal("media/" + songPath).exists()) {
             StorageReference download = sr.child("canciones/" + songPath);
+            File temp = Gdx.files.internal("media/" + songPath).file();
             try {
-                int dot = songPath.indexOf(".");
-                File auxtemp = File.createTempFile(songPath.substring(0, dot), songPath.substring(dot));
-                Files.move(Paths.get(auxtemp.getAbsolutePath()), Paths.get(cache + songPath));
-                File temp = new File(cache + songPath);
-                download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
-                    d.onDownloadComplete(temp.getAbsolutePath());
-                }).addOnFailureListener(d::onDownloadFailed);
+                temp.createNewFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        else{
-            d.onDownloadComplete(cache + songPath);
+            download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                d.onDownloadComplete(temp.getAbsolutePath());
+            }).addOnFailureListener(d::onDownloadFailed);
+        } else {
+            d.onDownloadComplete("");
         }
     }
 
