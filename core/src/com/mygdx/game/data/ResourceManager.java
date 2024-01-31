@@ -61,11 +61,9 @@ public class ResourceManager {
         loading = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("resources/loading.gif").read());
 
         //tiles
-        tiles = new Texture[4];
+        tiles = new Texture[3];
         tiles[0] = null;
         tiles[1] = new Texture(Gdx.files.internal("resources/botonNormal.png"));
         tiles[2] = new Texture(Gdx.files.internal("resources/botonMantenido.png"));
-        tiles[3] = new Texture(Gdx.files.internal("resources/rastroBoton.png"));
-
     }
 }

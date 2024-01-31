@@ -17,8 +17,6 @@ public class Score {
     public Score(int id) {
         songID = id;
         combos = new ArrayList<>();
-        maxCombo = 0;
-        hits = 0;
         fails = 0;
     }
 

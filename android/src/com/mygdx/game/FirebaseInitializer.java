@@ -25,12 +25,13 @@ public class FirebaseInitializer implements FirebaseInterface {
     private Map<Integer, Song> list;
 
     private StorageReference sr;
-    private final String cache = "/data/user/0/com.mygdx.game/cache/";
+    private final String cache;
 
     public FirebaseInitializer() {
         db = FirebaseDatabase.getInstance("https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app").getReference();
         sr = FirebaseStorage.getInstance("gs://turing-citizen-345816.appspot.com").getReference();
         list = new HashMap<Integer, Song>();
+        cache = System.getProperty("java.io.tmpdir") + "/";
         getSongs();
     }
 
@@ -75,6 +76,7 @@ public class FirebaseInitializer implements FirebaseInterface {
                     File auxtemp = File.createTempFile(file.substring(0, dot), file.substring(dot));
                     Files.move(Paths.get(auxtemp.getAbsolutePath()), Paths.get(cache + file));
                     File temp = new File(cache + file);
+
                     download.getFile(temp);
                 } catch (IOException e) {
                     throw new RuntimeException(e);

@@ -105,7 +105,6 @@ public class MenuScreen extends AbstractMenuScreen {
     protected void createScrollPane() {
         //create song selection menu
         scrollButtons = new Array<TextButton>();
-
         descStyle = new Label.LabelStyle(rm.pixel10, Color.WHITE);
         songSelected = new TextButton.TextButtonStyle();
         songSelected.up = new TextureRegionDrawable(rm.skin.getRegion("default-round-down"));

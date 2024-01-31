@@ -17,7 +17,7 @@ public abstract class AbstractScreen implements Screen {
     protected boolean batchFade = true;
     protected boolean clickable = true;
 
-    protected final String cache = "/data/user/0/com.mygdx.game/cache/";
+    protected final String cache = System.getProperty("java.io.tmpdir") + "/";
 
     protected ResourceManager rm;
 
