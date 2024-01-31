@@ -22,6 +22,7 @@ public class MenuScreen extends AbstractMenuScreen {
 
     // current level selection
     private int numLevelsToShow;
+    private int downloaded = 0;
 
 
 
@@ -30,7 +31,20 @@ public class MenuScreen extends AbstractMenuScreen {
         super(app, rm);
         handleEnterButton();
         createScrollPane();
-        app.FI.getBackgrounds(app.songs);
+        app.FI.getBackgrounds(app.songs, new Downloader() {
+            @Override
+            public void onDownloadComplete(String filePath) {
+                download();
+            }
+            @Override
+            public void onDownloadFailed(Exception exception) {
+                Gdx.app.error("firebase", "Download failed", exception);
+            }
+        });
+
+        while(downloaded < app.songs.size()){
+
+        }
     }
 
     @Override
@@ -177,5 +191,9 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollPane.layout();
         scrollTable.add(scrollPane).size(112, 101).fill();
         scrollTable.setPosition(-38, -10);
+    }
+
+    private void download(){
+        downloaded++;
     }
 }

@@ -135,7 +135,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             if (batchFade) stage.getBatch().setColor(Color.WHITE);
 
             //render song background corresponding to the selected song
-            Texture img = new Texture(Gdx.files.internal(path + game.songs.get(index).getImagePath()));
+            Texture img = new Texture(Gdx.files.absolute(path + game.songs.get(index).getImagePath()));
             stage.getBatch().draw(img, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
             stage.getBatch().end();
         }

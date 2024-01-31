@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
 public class Tile {
-    public static int V = 3;
+    public static float V = 1.5f;
     private int id;
     private int type;
     private int p;
@@ -70,8 +70,8 @@ public class Tile {
     public void move() {
         y -= V;
         if (w < 30) {
-            w += 0.8f;
-            h += 0.4f;
+            w += 0.4f;
+            h += 0.2f;
         }
         if (p == 0) {
             x = 100 - (2.5f * w);

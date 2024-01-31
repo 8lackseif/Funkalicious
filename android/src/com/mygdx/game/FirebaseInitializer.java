@@ -28,6 +28,8 @@ public class FirebaseInitializer implements FirebaseInterface {
 
     private StorageReference sr;
 
+    private String path = System.getProperty("java.io.tmpdir") + "/";
+
     public FirebaseInitializer() {
         db = FirebaseDatabase.getInstance("https://turing-citizen-345816-default-rtdb.europe-west1.firebasedatabase.app").getReference();
         sr = FirebaseStorage.getInstance("gs://turing-citizen-345816.appspot.com").getReference();
@@ -66,38 +68,47 @@ public class FirebaseInitializer implements FirebaseInterface {
     }
 
     @Override
-    public void getBackgrounds(Map<Integer, Song> songs) {
+    public void getBackgrounds(Map<Integer, Song> songs, Downloader d) {
         for (int i = 0; i < songs.size(); i++) {
             String file = songs.get(i).getImagePath();
-            if (!Gdx.files.internal("media/" + file).exists()) {
+            if (!new File(path + file).exists()) {
                 StorageReference download = sr.child("imagenes/" + file);
-                File temp = Gdx.files.internal("media/" + file).file();
+                int dot = file.indexOf(".");
                 try {
-                    Gdx.app.log("assets",temp.getAbsolutePath());
-                    temp.createNewFile();
+                    File auxfile = File.createTempFile(file.substring(0, dot), file.substring(dot));
+                    Files.move(Paths.get(auxfile.getAbsolutePath()), Paths.get(path + file));
+                    File temp = new File(path + file);
+                    download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                        d.onDownloadComplete(temp.getAbsolutePath());
+                    }).addOnFailureListener(d::onDownloadFailed);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                download.getFile(temp);
+
+            } else {
+                d.onDownloadComplete(path + file);
             }
         }
     }
 
     @Override
     public void getBGM(String songPath, Downloader d) {
-        if (!Gdx.files.internal("media/" + songPath).exists()) {
+        if (!new File(path + songPath).exists()) {
             StorageReference download = sr.child("canciones/" + songPath);
-            File temp = Gdx.files.internal("media/" + songPath).file();
+            int dot = songPath.indexOf(".");
             try {
-                temp.createNewFile();
+                File auxfile = File.createTempFile(songPath.substring(0, dot), songPath.substring(dot));
+                Files.move(Paths.get(auxfile.getAbsolutePath()), Paths.get(path + songPath));
+                File temp = new File(path + songPath);
+                download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
+                    d.onDownloadComplete(temp.getAbsolutePath());
+                }).addOnFailureListener(d::onDownloadFailed);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            download.getFile(temp).addOnSuccessListener(taskSnapshot -> {
-                d.onDownloadComplete(temp.getAbsolutePath());
-            }).addOnFailureListener(d::onDownloadFailed);
+
         } else {
-            d.onDownloadComplete("");
+            d.onDownloadComplete(path + songPath);
         }
     }
 

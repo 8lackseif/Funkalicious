@@ -17,7 +17,7 @@ public abstract class AbstractScreen implements Screen {
     protected boolean batchFade = true;
     protected boolean clickable = true;
 
-    protected final String path = "media/";
+    protected final String path = System.getProperty("java.io.tmpdir") + "/";
 
     protected ResourceManager rm;
 
