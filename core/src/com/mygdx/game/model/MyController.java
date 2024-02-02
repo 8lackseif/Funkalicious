@@ -1,5 +1,6 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.screens.GameScreen;
 
@@ -28,7 +29,14 @@ public class MyController implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.hit(screenX,screenY);
+        final int x = screenX;
+        final int y = screenY;
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                game.hit(x,y);
+            }
+        });
         return true;
     }
 

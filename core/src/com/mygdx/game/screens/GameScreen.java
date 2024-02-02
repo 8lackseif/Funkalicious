@@ -121,6 +121,10 @@ public class GameScreen extends AbstractScreen {
             Color oldC = stage.getBatch().getColor();
             stage.getBatch().setColor(new Color(oldC.r, oldC.g, oldC.b, 0.5f));
             stage.getBatch().draw(background, 0, 0, Music.V_WIDTH, Music.V_HEIGHT);
+
+
+            //render map
+            stage.getBatch().draw(rm.map, 13f, 16f);
             stage.getBatch().setColor(new Color(oldC.r, oldC.g, oldC.b, 1f));
 
             //draw tiles
@@ -130,7 +134,7 @@ public class GameScreen extends AbstractScreen {
             }
 
             acumulatedDT += dt;
-            if (acumulatedDT > 0.2f && !totalTiles.isEmpty()) {
+            if (acumulatedDT > 0.3f && !totalTiles.isEmpty()) {
                 renderTiles();
                 acumulatedDT = 0;
             }
@@ -195,11 +199,11 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void renderTiles() {
-        float x = 95f;
+        float x = 87.5f;
 
         for (int i = 0; i < 5; i++) {
             tilesOnMap.put(n, new Tile(n, totalTiles.get(0), x, i));
-            x += 2f;
+            x += 5f;
             totalTiles.removeFirst();
             n++;
         }
@@ -208,15 +212,15 @@ public class GameScreen extends AbstractScreen {
 
     public void hit(int X, int Y) {
         Vector2 v = stage.screenToStageCoordinates(new Vector2(X, Y));
-        Gdx.app.log("touched", v.x + ", " + v.y);
         Iterator<Map.Entry<Integer, Tile>> iterator = tilesOnMap.entrySet().iterator();
         boolean touched = false;
         while (iterator.hasNext() && !touched) {
             Map.Entry<Integer, Tile> entry = iterator.next();
             Tile t = entry.getValue();
             if (t.getY() < 30) {
-                if (v.x >= t.getX() && v.x <= t.getX() + 30) {
-                    if (v.y > 5 && v.y < 30) {
+                if (v.x >= t.getX() - 10 && v.x <= t.getX() + 30) {
+                    Gdx.app.log("touched", v.y + ", " + t.getY());
+                    if (v.y > 10 && v.y < 40) {
                         tilesOnMap.remove(entry.getKey());
                         actualcombo++;
                         score.addHits(1);

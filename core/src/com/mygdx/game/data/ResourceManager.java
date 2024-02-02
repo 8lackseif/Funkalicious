@@ -33,6 +33,8 @@ public class ResourceManager {
 
     public Texture[] tiles;
 
+    public Texture map;
+
     public ResourceManager() {
         assetManager = new AssetManager();
         assetManager.load("textures.atlas", TextureAtlas.class);
@@ -65,5 +67,8 @@ public class ResourceManager {
         tiles[0] = null;
         tiles[1] = new Texture(Gdx.files.internal("resources/botonNormal.png"));
         tiles[2] = new Texture(Gdx.files.internal("resources/botonMantenido.png"));
+
+        //map
+        map = new Texture(Gdx.files.internal("resources/Mapa.png"));
     }
 }

@@ -15,8 +15,8 @@ public class Tile {
         this.x = x;
         this.p = p;
         this.y = 120f;
-        this.w = 2f;
-        this.h = 1f;
+        this.w = 5f;
+        this.h = 2.5f;
     }
 
     public int getId() {
@@ -69,20 +69,24 @@ public class Tile {
 
     public void move() {
         y -= V;
-        if (w < 30) {
-            w += 0.4f;
-            h += 0.2f;
+        if (w < 30f) {
+            w += 1f/3;
+            h += 0.5f/3;
+            if (p == 0) {
+                x = 100f - (2.5f * w);
+            } else if (p == 1) {
+                x = 100f - (1.5f * w);
+            } else if (p == 2) {
+                x = 100f - (0.5f * w);
+            } else if (p == 3) {
+                x = 100f + (0.5f * w);
+            } else if (p == 4) {
+                x = 100f + (1.5f * w);
+            }
         }
-        if (p == 0) {
-            x = 100 - (2.5f * w);
-        } else if (p == 1) {
-            x = 100 - (1.5f * w);
-        } else if (p == 2) {
-            x = 100 - (0.5f * w);
-        } else if (p == 3) {
-            x = 100 + (0.5f * w);
-        } else if (p == 4) {
-            x = 100 + (1.5f * w);
+        else{
+            w = 30f;
+            h = 15f;
         }
     }
 }
