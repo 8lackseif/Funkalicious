@@ -47,10 +47,12 @@ public class Score {
         for (int combo : combos) {
             int multiplier = 1;
             while (combo > 0) {
-                if ((combo - 20) <= 0) {
+                if (combo <= 20) {
                     score += combo + 100 * multiplier;
+                    combo = 0;
                 } else {
                     score += 20 + 100 * multiplier;
+                    multiplier++;
                     combo -= 20;
                 }
             }

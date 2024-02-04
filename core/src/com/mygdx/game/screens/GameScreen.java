@@ -102,7 +102,9 @@ public class GameScreen extends AbstractScreen {
         if (!music.isPlaying()) {
             game.setScreen(new FinishScreen(game,rm,score,s));
         }
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         if (renderBatch) {
             stage.getBatch().setProjectionMatrix(stage.getCamera().combined);
             stage.getBatch().begin();

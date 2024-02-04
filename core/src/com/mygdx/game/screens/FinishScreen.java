@@ -105,16 +105,15 @@ public class FinishScreen extends AbstractScreen {
 
         // create points label
         banner = new Image(rm.skin, "default-slider");
-        banner.setPosition(50, 102);
-        banner.setSize(101, 12);
+        banner.setPosition(55, 95);
+        banner.setSize(100, 20);
         stage.addActor(banner);
 
         bannerLabel = new Label("", rm.skin);
         bannerLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
-        bannerLabel.setSize(50, 12);
+        bannerLabel.setSize(100, 20);
         bannerLabel.setTouchable(Touchable.disabled);
-        bannerLabel.setPosition(50, 102);
-        bannerLabel.setAlignment(Align.center);
+        bannerLabel.setPosition(57, 95);
         stage.addActor(bannerLabel);
 
         // create side description
