@@ -2,12 +2,9 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -222,26 +219,6 @@ public class GameScreen extends AbstractScreen {
                     Gdx.app.log("touched", v.y + ", " + t.getY());
                     if (v.y > 10 && v.y < 40) {
                         rm.tapsound.play(7f);
-
-                        switch (t.getP()) {
-                            case 0:
-                                rm.toucheffect.setPosition(13f, 16f);
-                                break;
-                            case 1:
-                                rm.toucheffect.setPosition(43f, 16f);
-                                break;
-                            case 2:
-                                rm.toucheffect.setPosition(73f, 16f);
-                                break;
-                            case 3:
-                                rm.toucheffect.setPosition(103f, 16f);
-                                break;
-                            case 4:
-                                rm.toucheffect.setPosition(133f, 16f);
-                                break;
-                        }
-
-                        //rm.toucheffect.draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
                         tilesOnMap.remove(entry.getKey());
                         actualcombo++;
                         score.addHits(1);

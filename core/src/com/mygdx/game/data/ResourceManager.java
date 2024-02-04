@@ -39,7 +39,7 @@ public class ResourceManager {
 
     public Sound tapsound;
 
-    public ParticleEffect toucheffect;
+    public Animation<TextureRegion> touchEffect;
 
     public ResourceManager() {
         assetManager = new AssetManager();
@@ -79,9 +79,5 @@ public class ResourceManager {
 
         //on touch media
         tapsound = Gdx.audio.newSound(Gdx.files.internal("resources/touch.mp3"));
-        toucheffect = new ParticleEffect();
-        toucheffect.load(Gdx.files.internal("resources/tap.p"),Gdx.files.internal("resources/"));
-        toucheffect.start();
-
     }
 }
