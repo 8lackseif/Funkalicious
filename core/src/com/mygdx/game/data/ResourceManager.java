@@ -2,9 +2,11 @@ package com.mygdx.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -34,6 +36,10 @@ public class ResourceManager {
     public Texture[] tiles;
 
     public Texture map;
+
+    public Sound tapsound;
+
+    public ParticleEffect toucheffect;
 
     public ResourceManager() {
         assetManager = new AssetManager();
@@ -70,5 +76,12 @@ public class ResourceManager {
 
         //map
         map = new Texture(Gdx.files.internal("resources/Mapa.png"));
+
+        //on touch media
+        tapsound = Gdx.audio.newSound(Gdx.files.internal("resources/touch.mp3"));
+        toucheffect = new ParticleEffect();
+        toucheffect.load(Gdx.files.internal("resources/tap.p"),Gdx.files.internal("resources/"));
+        toucheffect.start();
+
     }
 }

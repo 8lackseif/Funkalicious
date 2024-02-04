@@ -67,6 +67,14 @@ public class Tile {
         this.h = h;
     }
 
+    public int getP() {
+        return p;
+    }
+
+    public void setP(int p) {
+        this.p = p;
+    }
+
     public void move() {
         y -= V;
         if (w < 30f) {

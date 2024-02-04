@@ -221,6 +221,27 @@ public class GameScreen extends AbstractScreen {
                 if (v.x >= t.getX() - 10 && v.x <= t.getX() + 30) {
                     Gdx.app.log("touched", v.y + ", " + t.getY());
                     if (v.y > 10 && v.y < 40) {
+                        rm.tapsound.play(7f);
+
+                        switch (t.getP()) {
+                            case 0:
+                                rm.toucheffect.setPosition(13f, 16f);
+                                break;
+                            case 1:
+                                rm.toucheffect.setPosition(43f, 16f);
+                                break;
+                            case 2:
+                                rm.toucheffect.setPosition(73f, 16f);
+                                break;
+                            case 3:
+                                rm.toucheffect.setPosition(103f, 16f);
+                                break;
+                            case 4:
+                                rm.toucheffect.setPosition(133f, 16f);
+                                break;
+                        }
+
+                        //rm.toucheffect.draw(stage.getBatch(), Gdx.graphics.getDeltaTime());
                         tilesOnMap.remove(entry.getKey());
                         actualcombo++;
                         score.addHits(1);
