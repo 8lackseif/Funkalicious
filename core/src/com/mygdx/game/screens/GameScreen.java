@@ -25,18 +25,16 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class GameScreen extends AbstractScreen {
+    private final MyController controller;
+    private final Song s;
+    private final Texture background;
 
-    private InputMultiplexer im;
-    private MyController controller;
-    private Song s;
-    private Texture background;
+    private final Map<Integer, Tile> tilesOnMap;
+
+    private final Score score;
 
     private com.badlogic.gdx.audio.Music music;
 
-    private Score score;
-
-
-    private Map<Integer, Tile> tilesOnMap;
     private int n;
 
     private LinkedList<Integer> totalTiles;
@@ -77,7 +75,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        im = new InputMultiplexer();
+        InputMultiplexer im = new InputMultiplexer();
         Gdx.input.setInputProcessor(im);
         im.addProcessor(controller);
         im.addProcessor(stage);
@@ -91,8 +89,6 @@ public class GameScreen extends AbstractScreen {
                 renderBatch = true;
             }
         }), Actions.fadeIn(0.5f)));
-        //render the map
-
 
         //play music
         music = Gdx.audio.newMusic(Gdx.files.absolute(path + s.getSongPath()));
@@ -104,7 +100,7 @@ public class GameScreen extends AbstractScreen {
         combo.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
 
         if (!music.isPlaying()) {
-            game.setScreen((game.menuScreen = new MenuScreen(game, rm)));
+            game.setScreen(new FinishScreen(game,rm,score,s));
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (renderBatch) {

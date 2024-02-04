@@ -30,8 +30,8 @@ public class Score {
 
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public int getScore() {
+        return score;
     }
 
     public void addHits(int hits) {
@@ -55,5 +55,12 @@ public class Score {
                 }
             }
         }
+    }
+
+    public String details(){
+        return  "Max Combo: " + maxCombo + "\n" +
+                "Total tiles: " + (hits + fails) + "\n" +
+                "Hits: " + hits + "\n" +
+                "Fails: " + fails;
     }
 }
