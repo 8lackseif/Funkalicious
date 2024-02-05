@@ -65,4 +65,12 @@ public class Score {
                 "Hits: " + hits + "\n" +
                 "Fails: " + fails;
     }
+
+    public int getSongID() {
+        return songID;
+    }
+
+    public void setSongID(int songID) {
+        this.songID = songID;
+    }
 }

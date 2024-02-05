@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Main.Music;
 import com.mygdx.game.data.Downloader;
 import com.mygdx.game.data.ResourceManager;
+import com.mygdx.game.model.Score;
 import com.mygdx.game.model.Song;
 
 public class MenuScreen extends AbstractMenuScreen {
@@ -45,6 +46,8 @@ public class MenuScreen extends AbstractMenuScreen {
         while(downloaded < app.songs.size()){
 
         }
+
+
     }
 
     @Override
@@ -64,7 +67,13 @@ public class MenuScreen extends AbstractMenuScreen {
 
         }
 
-        scoreLabel.setText(game.songs.get(worldIndex).toString());
+        if(game.scoreBBDD.scores != null){
+            if(game.scoreBBDD.scores.getScore(worldIndex) != null){
+                Score selectedScore = game.scoreBBDD.scores.getScore(worldIndex);
+                scoreLabel.setText(selectedScore.getScore() + "\n" +
+                        selectedScore.details());
+            }
+        }
 
     }
 
@@ -165,7 +174,15 @@ public class MenuScreen extends AbstractMenuScreen {
                     //when song is selected
                     selectAt(index);
                     //show last best score for selected song
-                    scoreLabel.setText(game.songs.get(index).toString());
+                    if(game.scoreBBDD.scores != null){
+                        if(game.scoreBBDD.scores.getScore(index) != null){
+                            Score selectedScore = game.scoreBBDD.scores.getScore(index);
+                            scoreLabel.setText(selectedScore.getScore() + "\n" +
+                                                selectedScore.details());
+                        }
+                    }
+
+
                     worldIndex = index;
 
 
