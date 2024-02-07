@@ -100,7 +100,7 @@ public class GameScreen extends AbstractScreen {
         combo.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
 
         if (!music.isPlaying()) {
-            game.setScreen(new FinishScreen(game,rm,score,s));
+            game.setScreen(new FinishScreen(game, rm, score, s));
         }
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -122,18 +122,23 @@ public class GameScreen extends AbstractScreen {
             stage.getBatch().draw(rm.map, 13f, 16f);
             stage.getBatch().setColor(new Color(oldC.r, oldC.g, oldC.b, 1f));
 
-            //draw tiles
-
+            //move tiles
             for (Tile t : tilesOnMap.values()) {
-                t.move();
+                if(t.getHit()){
+                    if(t.removeCount()) t.setType(0);
+                }else{
+                    t.move();
+                }
             }
 
+            //add tiles to map
             acumulatedDT += dt;
             if (acumulatedDT > 0.3f && !totalTiles.isEmpty()) {
                 renderTiles();
                 acumulatedDT = 0;
             }
 
+            //draw on map tiles
             Iterator<Map.Entry<Integer, Tile>> iterator = tilesOnMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<Integer, Tile> entry = iterator.next();
@@ -141,7 +146,13 @@ public class GameScreen extends AbstractScreen {
                 Texture r = rm.tiles[t.getType()];
 
                 if (r != null) {
+
+                    if(t.getHit()){
+                        r = rm.hit;
+                    }
+
                     stage.getBatch().draw(r, t.getX(), t.getY(), t.getW(), t.getH());
+
                 } else {
                     iterator.remove();
                 }
@@ -214,10 +225,12 @@ public class GameScreen extends AbstractScreen {
             Tile t = entry.getValue();
             if (t.getY() < 30) {
                 if (v.x >= t.getX() - 10 && v.x <= t.getX() + 30) {
-                    Gdx.app.log("touched", v.y + ", " + t.getY());
                     if (v.y > 10 && v.y < 40) {
+                        t.hitted();
+                        t.setW(20);
+                        t.setH(10);
+                        t.setX(t.getX()+5);
                         rm.tapsound.play(7f);
-                        tilesOnMap.remove(entry.getKey());
                         actualcombo++;
                         score.addHits(1);
                         touched = true;

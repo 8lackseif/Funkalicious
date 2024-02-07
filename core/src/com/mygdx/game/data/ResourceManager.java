@@ -39,7 +39,7 @@ public class ResourceManager {
 
     public Sound tapsound;
 
-    public Animation<TextureRegion> touchEffect;
+    public Texture hit;
 
     public ResourceManager() {
         assetManager = new AssetManager();
@@ -79,5 +79,6 @@ public class ResourceManager {
 
         //on touch media
         tapsound = Gdx.audio.newSound(Gdx.files.internal("resources/touch.mp3"));
+        hit = new Texture(Gdx.files.internal("resources/Hit.png"));
     }
 }

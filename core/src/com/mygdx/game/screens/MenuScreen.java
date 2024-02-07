@@ -26,8 +26,6 @@ public class MenuScreen extends AbstractMenuScreen {
     private int downloaded = 0;
 
 
-
-
     public MenuScreen(Music app, ResourceManager rm) {
         super(app, rm);
         handleEnterButton();
@@ -37,15 +35,18 @@ public class MenuScreen extends AbstractMenuScreen {
             public void onDownloadComplete(String filePath) {
                 download();
             }
+
             @Override
             public void onDownloadFailed(Exception exception) {
                 Gdx.app.error("firebase", "Download failed", exception);
             }
         });
 
-        while(downloaded < app.songs.size()){
+        while (downloaded < app.songs.size()) {
 
         }
+
+        game.scoreBBDD.readScores(game.songs);
 
 
     }
@@ -54,8 +55,8 @@ public class MenuScreen extends AbstractMenuScreen {
     public void show() {
         super.show();
 
-        bannerLabel.setText("SELECT A SONG");
-        bannerLabel.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
+        scoreBannerLabel.setText("SELECT A SONG");
+        scoreBannerLabel.getStyle().fontColor = new Color(1, 212 / 255.f, 0, 1);
 
         this.numLevelsToShow = game.songs.size();
 
@@ -67,7 +68,12 @@ public class MenuScreen extends AbstractMenuScreen {
 
         }
 
-
+        if (game.scoreBBDD.scores.containsKey(game.songs.get(worldIndex).getId())) {
+            Score s = game.scoreBBDD.scores.get(game.songs.get(worldIndex).getId());
+            detailLabel.setText("score: " + s.getScore() + "\n" + s.details());
+        } else {
+            detailLabel.setText("NO SCORE");
+        }
 
 
     }
@@ -169,11 +175,13 @@ public class MenuScreen extends AbstractMenuScreen {
                     //when song is selected
                     selectAt(index);
                     //show last best score for selected song
-
-
+                    if (game.scoreBBDD.scores.containsKey(game.songs.get(index).getId())) {
+                        Score s = game.scoreBBDD.scores.get(game.songs.get(index).getId());
+                        detailLabel.setText("score: " + s.getScore() + "\n" + s.details());
+                    } else {
+                        detailLabel.setText("NO SCORE");
+                    }
                     worldIndex = index;
-
-
 
                 }
             });
@@ -198,7 +206,7 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollTable.setPosition(-38, -10);
     }
 
-    private void download(){
+    private void download() {
         downloaded++;
     }
 }

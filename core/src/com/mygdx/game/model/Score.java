@@ -56,10 +56,10 @@ public class Score {
             int multiplier = 1;
             while (combo > 0) {
                 if (combo <= 20) {
-                    score += combo + 100 * multiplier;
+                    score += combo * 100 * multiplier;
                     combo = 0;
                 } else {
-                    score += 20 + 100 * multiplier;
+                    score += 20 * 100 * multiplier;
                     multiplier++;
                     combo -= 20;
                 }

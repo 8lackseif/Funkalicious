@@ -23,10 +23,10 @@ public class FinishScreen extends AbstractScreen {
     private Score score;
 
     private Texture background;
-    protected Label bannerLabel;
-    protected Image descField;
     protected Label scoreLabel;
-    protected Image banner;
+    protected Image detailField;
+    protected Label detailLabel;
+    protected Image scoreBanner;
     protected Group enterButtonGroup;
     protected ImageButton enterButton;
     protected Label enterLabel;
@@ -80,15 +80,16 @@ public class FinishScreen extends AbstractScreen {
     private void showScore() {
         //inicializar componentes con la clase Score con los datos
         score.calculateScore();
-        bannerLabel.setText("total points: " + score.getScore());
-        scoreLabel.setText(score.details());
+        scoreLabel.setText("total points: " + score.getScore());
+        detailLabel.setText(score.details());
     }
 
     private void initComponents() {
+        //button
         enterButtonGroup = new Group();
         enterButtonGroup.setSize(79, 28);
         enterButtonGroup.setTransform(false);
-
+        
         ImageButton.ImageButtonStyle enterStyle = new ImageButton.ImageButtonStyle();
         enterStyle.imageUp = new TextureRegionDrawable(rm.enterButton[0][0]);
         enterStyle.imageDown = new TextureRegionDrawable(rm.enterButton[1][0]);
@@ -104,34 +105,34 @@ public class FinishScreen extends AbstractScreen {
         enterButtonGroup.addActor(enterLabel);
 
         // create points label
-        banner = new Image(rm.skin, "default-slider");
-        banner.setPosition(55, 95);
-        banner.setSize(100, 20);
-        stage.addActor(banner);
+        scoreBanner = new Image(rm.skin, "default-slider");
+        scoreBanner.setPosition(45, 95);
+        scoreBanner.setSize(120, 20);
+        stage.addActor(scoreBanner);
 
-        bannerLabel = new Label("", rm.skin);
-        bannerLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
-        bannerLabel.setSize(100, 20);
-        bannerLabel.setTouchable(Touchable.disabled);
-        bannerLabel.setPosition(57, 95);
-        stage.addActor(bannerLabel);
-
-        // create side description
-        descField = new Image(rm.skin, "default-slider");
-        descField.setPosition(67, 39);
-        descField.setSize(79, 42);
-        stage.addActor(descField);
-
-        //descripción
-        scoreLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
-        scoreLabel.setPosition(67.5f, 40);
-        scoreLabel.setSize(75, 40);
+        scoreLabel = new Label("", rm.skin);
+        scoreLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
+        scoreLabel.setSize(120, 20);
         scoreLabel.setTouchable(Touchable.disabled);
-        scoreLabel.setFontScale(0.8f);
-        scoreLabel.setWrap(true);
-        scoreLabel.setAlignment(Align.center);
+        scoreLabel.setPosition(52, 95);
         stage.addActor(scoreLabel);
 
+        //details
+        detailField = new Image(rm.skin, "default-slider");
+        detailField.setPosition(67, 39);
+        detailField.setSize(79, 42);
+        stage.addActor(detailField);
+
+        detailLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
+        detailLabel.setPosition(67.5f, 40);
+        detailLabel.setSize(75, 40);
+        detailLabel.setTouchable(Touchable.disabled);
+        detailLabel.setFontScale(0.8f);
+        detailLabel.setWrap(true);
+        detailLabel.setAlignment(Align.center);
+        stage.addActor(detailLabel);
+        
+        // next button
         enterButtonGroup.setPosition(67, 4);
         stage.addActor(enterButtonGroup);
         enterButton.addListener(new ClickListener() {
@@ -145,8 +146,12 @@ public class FinishScreen extends AbstractScreen {
     }
 
     private void registerScore() {
-        game.scoreBBDD.scores.put(score.getSongID(),score);
-        game.scoreBBDD.saveScores();
+        if (game.scoreBBDD.scores.containsKey(score.getSongID())) {
+            if (game.scoreBBDD.scores.get(score.getSongID()).getScore() < score.getScore()) {
+                game.scoreBBDD.scores.put(score.getSongID(), score);
+                game.scoreBBDD.saveScores();
+            }
+        }
     }
 
 

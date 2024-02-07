@@ -54,10 +54,7 @@ public class Music extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
         batch = new SpriteBatch();
-
         scoreBBDD = new ScoreBBDD();
-        scoreBBDD.readScores(songs);
-
         loadingScreen = new LoadingScreen(this, new ResourceManager());
         menuScreen = new MenuScreen(this, new ResourceManager());
         this.setScreen(menuScreen);

@@ -9,6 +9,9 @@ public class Tile {
 
     private float w, h;
 
+    private boolean hit;
+    private int hitCount;
+
     public Tile(int id, int type, float x, int p) {
         this.id = id;
         this.type = type;
@@ -17,6 +20,22 @@ public class Tile {
         this.y = 120f;
         this.w = 5f;
         this.h = 2.5f;
+        this.hit = false;
+        this.hitCount = 0;
+    }
+
+    public boolean removeCount(){
+        hitCount++;
+        if(hitCount >= 10) return true;
+        return false;
+    }
+
+    public void hitted(){
+        hit = true;
+    }
+
+    public boolean getHit(){
+        return hit;
     }
 
     public int getId() {

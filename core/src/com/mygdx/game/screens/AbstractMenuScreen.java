@@ -28,13 +28,13 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected ImageButton enterButton;
     protected Label enterLabel;
 
-    // screen banner
-    protected Label bannerLabel;
-    protected Image banner;
+    // screen scoreBanner
+    protected Label scoreBannerLabel;
+    protected Image scoreBanner;
 
     // side description
-    protected Image descField;
-    protected Label scoreLabel;
+    protected Image detailField;
+    protected Label detailLabel;
 
     // scroll pane components
     protected Table scrollTable;
@@ -76,34 +76,33 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         enterButtonGroup.addActor(enterLabel);
 
         // create title label
-        banner = new Image(rm.skin, "default-slider");
-        banner.setPosition(7, 102);
-        banner.setSize(101, 12);
-        stage.addActor(banner);
+        scoreBanner = new Image(rm.skin, "default-slider");
+        scoreBanner.setPosition(7, 102);
+        scoreBanner.setSize(101, 12);
+        stage.addActor(scoreBanner);
 
-        bannerLabel = new Label("", rm.skin);
-        bannerLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
-        bannerLabel.setSize(50, 12);
-        bannerLabel.setTouchable(Touchable.disabled);
-        bannerLabel.setPosition(10, 102);
-        bannerLabel.setAlignment(Align.left);
-        stage.addActor(bannerLabel);
+        scoreBannerLabel = new Label("", rm.skin);
+        scoreBannerLabel.setStyle(new Label.LabelStyle(rm.pixel10, new Color(1, 212 / 255.f, 0, 1)));
+        scoreBannerLabel.setSize(50, 12);
+        scoreBannerLabel.setTouchable(Touchable.disabled);
+        scoreBannerLabel.setPosition(10, 102);
+        scoreBannerLabel.setAlignment(Align.left);
+        stage.addActor(scoreBannerLabel);
 
         // create side description
-        descField = new Image(rm.skin, "default-slider");
-        descField.setPosition(114, 36);
-        descField.setSize(79, 80);
-        stage.addActor(descField);
+        detailField = new Image(rm.skin, "default-slider");
+        detailField.setPosition(114, 36);
+        detailField.setSize(79, 60);
+        stage.addActor(detailField);
 
-        //descripción
-        scoreLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
-        scoreLabel.setPosition(118, 40);
-        scoreLabel.setSize(75, 72);
-        scoreLabel.setTouchable(Touchable.disabled);
-        scoreLabel.setFontScale(0.7f);
-        scoreLabel.setWrap(true);
-        scoreLabel.setAlignment(Align.topLeft);
-        stage.addActor(scoreLabel);
+        detailLabel = new Label("", new Label.LabelStyle(rm.pixel10, Color.WHITE));
+        detailLabel.setPosition(118, 40);
+        detailLabel.setSize(75, 52);
+        detailLabel.setTouchable(Touchable.disabled);
+        detailLabel.setFontScale(0.7f);
+        detailLabel.setWrap(true);
+        detailLabel.setAlignment(Align.topLeft);
+        stage.addActor(detailLabel);
     }
 
     @Override
