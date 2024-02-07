@@ -227,10 +227,7 @@ public class GameScreen extends AbstractScreen {
                 if (v.x >= t.getX() - 10 && v.x <= t.getX() + 30) {
                     if (v.y > 10 && v.y < 40) {
                         t.hitted();
-                        t.setW(20);
-                        t.setH(10);
-                        t.setX(t.getX()+5);
-                        rm.tapsound.play(7f);
+                        rm.tapsound.play(4f);
                         actualcombo++;
                         score.addHits(1);
                         touched = true;

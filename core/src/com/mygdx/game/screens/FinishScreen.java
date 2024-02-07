@@ -146,11 +146,16 @@ public class FinishScreen extends AbstractScreen {
     }
 
     private void registerScore() {
+
         if (game.scoreBBDD.scores.containsKey(score.getSongID())) {
             if (game.scoreBBDD.scores.get(score.getSongID()).getScore() < score.getScore()) {
                 game.scoreBBDD.scores.put(score.getSongID(), score);
                 game.scoreBBDD.saveScores();
             }
+        }
+        else{
+            game.scoreBBDD.scores.put(score.getSongID(), score);
+            game.scoreBBDD.saveScores();
         }
     }
 
