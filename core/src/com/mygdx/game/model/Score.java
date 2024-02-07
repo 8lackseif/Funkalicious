@@ -20,6 +20,14 @@ public class Score {
         fails = 0;
     }
 
+    public Score(int id, int maxCombo, int hits, int fails, int score) {
+        this.songID = id;
+        this.maxCombo = maxCombo;
+        this.hits = hits;
+        this.fails = fails;
+        this.score = score;
+    }
+
 
     public void addCombo(int combo) {
         combos.add(combo);
@@ -59,8 +67,8 @@ public class Score {
         }
     }
 
-    public String details(){
-        return  "Max Combo: " + maxCombo + "\n" +
+    public String details() {
+        return "Max Combo: " + maxCombo + "\n" +
                 "Total tiles: " + (hits + fails) + "\n" +
                 "Hits: " + hits + "\n" +
                 "Fails: " + fails;
@@ -72,5 +80,10 @@ public class Score {
 
     public void setSongID(int songID) {
         this.songID = songID;
+    }
+
+    @Override
+    public String toString() {
+        return songID + ";" + maxCombo + ";" + hits + ";" + fails + ";" + score;
     }
 }

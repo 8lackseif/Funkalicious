@@ -145,7 +145,7 @@ public class FinishScreen extends AbstractScreen {
     }
 
     private void registerScore() {
-        game.scoreBBDD.scores.saveScore(score);
+        game.scoreBBDD.scores.put(score.getSongID(),score);
         game.scoreBBDD.saveScores();
     }
 

@@ -10,7 +10,6 @@ import com.mygdx.game.data.FirebaseInterface;
 import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.data.ScoreBBDD;
 import com.mygdx.game.model.Score;
-import com.mygdx.game.model.Scores;
 import com.mygdx.game.model.Song;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.screens.LoadingScreen;
@@ -55,10 +54,10 @@ public class Music extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
         batch = new SpriteBatch();
+
         scoreBBDD = new ScoreBBDD();
-        if(scoreBBDD.scores == null){
-            scoreBBDD.scores = new Scores(new HashMap<Integer,Score>());
-        }
+        scoreBBDD.readScores(songs);
+
         loadingScreen = new LoadingScreen(this, new ResourceManager());
         menuScreen = new MenuScreen(this, new ResourceManager());
         this.setScreen(menuScreen);

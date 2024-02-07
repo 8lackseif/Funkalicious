@@ -67,13 +67,8 @@ public class MenuScreen extends AbstractMenuScreen {
 
         }
 
-        if(game.scoreBBDD.scores != null){
-            if(game.scoreBBDD.scores.getScore(worldIndex) != null){
-                Score selectedScore = game.scoreBBDD.scores.getScore(worldIndex);
-                scoreLabel.setText(selectedScore.getScore() + "\n" +
-                        selectedScore.details());
-            }
-        }
+
+
 
     }
 
@@ -174,13 +169,6 @@ public class MenuScreen extends AbstractMenuScreen {
                     //when song is selected
                     selectAt(index);
                     //show last best score for selected song
-                    if(game.scoreBBDD.scores != null){
-                        if(game.scoreBBDD.scores.getScore(index) != null){
-                            Score selectedScore = game.scoreBBDD.scores.getScore(index);
-                            scoreLabel.setText(selectedScore.getScore() + "\n" +
-                                                selectedScore.details());
-                        }
-                    }
 
 
                     worldIndex = index;
