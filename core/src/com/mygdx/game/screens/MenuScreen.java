@@ -42,6 +42,7 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
+
         while (downloaded < app.songs.size()) {
 
         }
@@ -63,19 +64,12 @@ public class MenuScreen extends AbstractMenuScreen {
         scrollTable.remove();
         createScrollPane();
 
-        //until we get the data from firebase
-        while (game.songs.get(worldIndex) == null) {
-
-        }
-
         if (game.scoreBBDD.scores.containsKey(game.songs.get(worldIndex).getId())) {
             Score s = game.scoreBBDD.scores.get(game.songs.get(worldIndex).getId());
             detailLabel.setText("score: " + s.getScore() + "\n" + s.details());
         } else {
             detailLabel.setText("NO SCORE");
         }
-
-
     }
 
     @Override
@@ -98,7 +92,6 @@ public class MenuScreen extends AbstractMenuScreen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override

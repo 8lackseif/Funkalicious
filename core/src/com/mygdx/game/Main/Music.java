@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.data.FirebaseInterface;
 import com.mygdx.game.data.ResourceManager;
 import com.mygdx.game.data.ScoreBBDD;
-import com.mygdx.game.model.Score;
 import com.mygdx.game.model.Song;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.screens.LoadingScreen;
@@ -45,7 +44,6 @@ public class Music extends Game {
         FI = firebaseInitializer;
         songs = FI.getList();
         downloaded = false;
-
     }
 
 
@@ -76,6 +74,7 @@ public class Music extends Game {
 
     @Override
     public void dispose() {
+        gameScreen.dispose();
         loadingScreen.dispose();
         menuScreen.dispose();
     }

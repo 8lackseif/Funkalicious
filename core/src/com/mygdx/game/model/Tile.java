@@ -99,6 +99,7 @@ public class Tile {
         if (w < 30f) {
             w += 1f/3;
             h += 0.5f/3;
+
             if (p == 0) {
                 x = 100f - (2.5f * w);
             } else if (p == 1) {

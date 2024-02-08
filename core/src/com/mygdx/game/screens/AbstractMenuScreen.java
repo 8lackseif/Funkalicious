@@ -118,6 +118,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
                 renderBatch = true;
             }
         }), Actions.fadeIn(0.5f)));
+
     }
 
     public void update(float dt) {
@@ -141,6 +142,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
 
         super.render(dt);
     }
+
 
     protected void selectAt(int index) {
         for (TextButton t : scrollButtons) {
